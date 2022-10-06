@@ -8,6 +8,9 @@
     <!-- Bootstrap CSS -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+    <!-- CSS -->
+    <link href="{{ asset('css/main.css') }}" rel="stylesheet">
+
     <title>@yield('title')</title>
   </head>
   <body>

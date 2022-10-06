@@ -14,3 +14,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'PostController@index');
+Route::get('/post/show/{id}', 'PostController@show')->name('post.show');
