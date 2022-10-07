@@ -1,6 +1,6 @@
 @extends('app')
 
-@section('title', 'Laralove | Show')
+@section('title', 'Laralove | Post Show')
 
 @section('content')
 
@@ -15,7 +15,7 @@
             <h4 class="card-title my-3 ml-5 pl-2">投稿タイトル</h4>
             <div class="card-text">
                 <div class="d-flex">
-                    <img src="https://placehold.jp/500x500.png" class="rounded-circle circle-sm mr-2" alt="">
+                    <a href="{{ route('user.show') }}"><img src="https://placehold.jp/500x500.png" class="rounded-circle circle-sm mr-2" alt=""></a>
                     <span>テキストテキストテキストテキストテキストテキストテキストテキストテキスト</span>
                 </div>
             </div>
