@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +20,7 @@ Route::get('/post/show/{id}', 'PostController@show')->name('post.show');
 
 // User Route
 Route::get('/user/show', 'UserController@show')->name('user.show');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
