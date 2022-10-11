@@ -3,6 +3,11 @@
     height: 50px;
 }
 
+.rounded-circle.circle-md {
+    width: 125px;
+    height: 125px;
+}
+
 .rounded-circle.circle-lg {
     width: 200px;
     height: 200px;

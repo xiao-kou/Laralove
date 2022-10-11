@@ -14,6 +14,7 @@
     <title>@yield('title')</title>
   </head>
   <body>
+    <script src="{{ asset('js/app.js') }}"></script>
     @yield('content')
   </body>
 </html>
