@@ -7,12 +7,13 @@
 @include('nav')
 
 <div class="container">
-    <div class="d-flex justify-content-center mt-2">
-        <img src="https://placehold.jp/500x500.png" alt="" class="rounded-circle circle-md mt-3">
+    <div class="d-flex justify-content-center align-items-center mt-3">
+        <img src="https://placehold.jp/500x500.png" alt="" class="rounded-circle circle-md">
         <div>
-            <h3 class="mt-4 ml-4">User Name</h3>
-            <h5 class="mt-2 ml-4">@screen_id</h5>
-            <button class="ml-4 btn btn-primary px-5">フォロー</button>
+            <h4 class="mt-1 ml-4">User Name</h4>
+            <h5 class="mt-1 ml-4">@screen_id</h5>
+            <button class="ml-4 mt-1 btn btn-primary btn-sm">フォロー</button>
+            <button class="ml-2 mt-1 btn btn-secondary btn-sm">フォロワー一覧</button>
         </div>
     </div>
     <hr>

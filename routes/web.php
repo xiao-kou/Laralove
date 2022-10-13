@@ -19,7 +19,7 @@ Route::get('/', 'PostController@index')->name('post.index');
 Route::get('/post/show/{id}', 'PostController@show')->name('post.show');
 
 // User Route
-Route::get('/user/show', 'UserController@show')->name('user.show');
+Route::get('/user/show/{id}', 'UserController@show')->name('user.show');
 
 Auth::routes();
 
