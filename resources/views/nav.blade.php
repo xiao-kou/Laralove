@@ -6,7 +6,7 @@
 
     @auth
       <li class="nav-item">
-        <a class="nav-link" href=""><i class="fas fa-pen mr-1"></i>投稿する</a>
+        <a class="nav-link" href="{{ route('post.create') }}"><i class="fas fa-pen mr-1"></i>投稿する</a>
       </li>
     @endauth
 

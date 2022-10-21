@@ -15,6 +15,7 @@
   </head>
   <body>
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
 
     <!-- フラッシュメッセージ -->
     @if (session('flash_message'))
