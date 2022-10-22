@@ -21,5 +21,6 @@ Route::get('/post/create', 'PostController@create')->name('post.create');
 
 // User Route
 Route::get('/user/show/{id}', 'UserController@show')->name('user.show');
+Route::get('/user/index', 'UserController@index')->name('user.index');
 
 Auth::routes();
