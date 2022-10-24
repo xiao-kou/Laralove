@@ -23,4 +23,7 @@ Route::get('/post/create', 'PostController@create')->name('post.create');
 Route::get('/user/show/{id}', 'UserController@show')->name('user.show');
 Route::get('/user/index', 'UserController@index')->name('user.index');
 
+// Messages Route
+Route::get('/message/show/{sender_id}/{recipient_id}', 'MessageController@show')->name('message.show');
+
 Auth::routes();

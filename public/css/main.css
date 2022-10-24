@@ -21,3 +21,67 @@
 .custom-file-label {
     white-space: nowrap;
 }
+
+.balloon-left {
+    position: relative;
+    display: inline-block;
+    margin: 1.5em 0 1.5em 15px;
+    padding: 15px 10px;
+    min-width: 120px;
+    max-width: 100%;
+    color: #555;
+    font-size: 16px;
+    background: #e0edff;
+    border-radius: 8px;
+    word-break: break-all;
+}
+
+.balloon-left:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -25px;
+    margin-top: -15px;
+    border: 15px solid transparent;
+    border-right: 15px solid #e0edff;
+}
+
+.balloon-left h5 {
+    margin: 0;
+    padding: 0;
+}
+
+.balloon-right {
+    position: relative;
+    display: inline-block;
+    margin: 1.5em 15px 1.5em 0;
+    padding: 15px 10px;
+    min-width: 120px;
+    max-width: 100%;
+    color: #555;
+    font-size: 16px;
+    background: #e2ffe0;
+    border-radius: 8px;
+    word-break: break-all;
+}
+
+.balloon-right:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    margin-top: -15px;
+    border: 15px solid transparent;
+    border-left: 15px solid #e2ffe0;
+}
+
+.balloon-right h5 {
+    margin: 0;
+    padding: 0;
+}
+
+.form-fixed-bottom {
+    position: fixed;
+    bottom: 1%;
+    width: 100%;
+}
