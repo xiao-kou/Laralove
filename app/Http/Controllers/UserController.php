@@ -14,7 +14,9 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $user = User::with('posts:id,user_id,file_path')->find($id);
+        $user = User::with(['posts' => function ($query) {
+            $query->orderByDesc('id')->get();
+        }])->find($id);
         return view('users.show', compact('user'));
     }
 }
