@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 
 class UserController extends Controller
 {
@@ -11,8 +12,9 @@ class UserController extends Controller
         return view('users.index');
     }
 
-    public function show()
+    public function show($id)
     {
-        return view('users.show');
+        $user = User::with('posts:id,user_id,file_path')->find($id);
+        return view('users.show', compact('user'));
     }
 }

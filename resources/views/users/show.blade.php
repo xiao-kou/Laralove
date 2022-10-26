@@ -29,28 +29,20 @@
     <div class="tab-content">
         <div id="photo" class="tab-pane active">
             <div class="d-flex row">
-                <div class="col-4">
-                    <a href="{{ route('post.show', ['id' => '1']) }}"><img src="https://placehold.jp/500x500.png" class="w-100" alt="..."></a>
-                </div>
-                <div class="col-4">
-                    <a href="{{ route('post.show', ['id' => '1']) }}"><img src="https://placehold.jp/500x500.png" class="w-100" alt="..."></a>
-                </div>
-                <div class="col-4">
-                    <a href="{{ route('post.show', ['id' => '1']) }}"><img src="https://placehold.jp/500x500.png" class="w-100" alt="..."></a>
-                </div>
+                @foreach($user->posts as $post)
+                    <div class="col-4">
+                        <a href="{{ route('post.show', ['id' => $post->id]) }}"><img src="{{ asset($post->file_path) }}" class="w-100" alt="..."></a>
+                    </div>
+                @endforeach
             </div>
         </div>
         <div id="like" class="tab-pane">
             <div class="d-flex row">
-                <div class="col-4">
-                    <a href="{{ route('post.show', ['id' => '1']) }}"><img src="https://placehold.jp/500x500.png" class="w-100" alt="..."></a>
-                </div>
-                <div class="col-4">
-                    <a href="{{ route('post.show', ['id' => '1']) }}"><img src="https://placehold.jp/500x500.png" class="w-100" alt="..."></a>
-                </div>
-                <div class="col-4">
-                    <a href="{{ route('post.show', ['id' => '1']) }}"><img src="https://placehold.jp/500x500.png" class="w-100" alt="..."></a>
-                </div>
+                @foreach($user->posts as $post)
+                    <div class="col-4">
+                        <a href="{{ route('post.show', ['id' => $post->id]) }}"><img src="{{ asset($post->file_path) }}" class="w-100" alt="..."></a>
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>
