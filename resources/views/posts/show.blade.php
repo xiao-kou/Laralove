@@ -8,16 +8,16 @@
 
 <div class="container">
     <div class="card mt-3">
+        <h3 class="card-title text-center mt-3">{{ $post->title }}</h3>
         <div class="text-center mt-1">
-            <img src="https://placehold.jp/500x500.png" class="w-50" alt="...">
+            <img src="{{ asset($post->file_path) }}" class="w-50" alt="...">
         </div>
         <div class="card-body">
-            <h4 class="card-title my-3 ml-5 pl-2">投稿タイトル</h4>
             <div class="card-text">
                 <div class="d-flex align-items-center">
-                    <a href="{{ route('user.show' , '1') }}"><img src="https://placehold.jp/500x500.png" class="rounded-circle circle-sm mr-2" alt=""></a>
+                    <a href="{{ route('user.show' , $post->user_id) }}"><img src="https://placehold.jp/500x500.png" class="rounded-circle circle-sm mr-2" alt=""></a>
                     <div>
-                        <span>テキストテキストテキストテキストテキストテキストテキストテキストテキスト</span>
+                        <span>{{ $post->content }}</span>
                     </div>
                 </div>
             </div>
