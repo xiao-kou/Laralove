@@ -85,3 +85,13 @@
     bottom: 1%;
     width: 100%;
 }
+
+.post-show.title-area {
+    position: relative;
+}
+
+.post-show.edit-button-area {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}

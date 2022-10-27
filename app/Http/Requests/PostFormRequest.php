@@ -23,10 +23,27 @@ class PostFormRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        //現在のrouteの名前を取得
+        $route = $this->route()->getName();
+
+        //共通するルール
+        $rules = [
             'title' => 'required|max:255',
             'content' => 'required|max:255',
-            'input_file' => 'required|file|image|mimes:jpeg,png,jpg,gif|max:1024'
         ];
+
+        //共通しないルール
+        switch ($route) {
+            case 'post.store';
+                $rules['input_file'] = 'required|file|image|mimes:jpeg,png,jpg,gif|max:1024';
+                break;
+
+            case 'post.update';
+                $rules['input_file'] = 'nullable|file|image|mimes:jpeg,png,jpg,gif|max:1024';
+                break;
+        }
+
+        return $rules;
+
     }
 }

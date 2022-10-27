@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\PostFormRequest;
 use App\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -43,5 +44,41 @@ class PostController extends Controller
         ]);
 
         return redirect()->route('post.show', $post->id);
+    }
+
+    public function edit($id)
+    {
+        $post = Post::find($id);
+
+        return view('posts.edit', compact('post'));
+    }
+
+    public function update(PostFormRequest $request, $id)
+    {
+        //ファイルを編集
+        $post = Post::where('id', $id)->first(); //編集対象の投稿を取得
+
+        $image = $request->file('input_file'); //リクエストされたファイルを取得
+
+        $update_data = [];
+
+        //ファイルが存在する場合
+        if ($image) {
+            $dir = 'posts'; //ディレクトリ名
+
+            Storage::disk('public')->delete($post->file_path); //現在の画像を削除
+
+            $store_file_name = basename($image->store('public/' . $dir)); //ストレージに保存
+
+            $update_data['file_name'] = $image->getClientOriginalName();
+            $update_data['file_path'] = 'storage/' . $dir . '/' . $store_file_name;
+        }
+
+        //更新処理
+        $update_data['title'] = $request->title;
+        $update_data['content'] = $request->content;
+        $post->update($update_data);
+
+        return redirect()->route('post.show', $id);
     }
 }

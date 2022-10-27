@@ -1,10 +1,12 @@
 $(document).ready(function(){
     $('.custom-file-input').on('change', handleFileSelect);
         function handleFileSelect(evt) {
-                $('#preview').remove();// 繰り返し実行時の処理
-                $(this).parents('.input-file').after('<div id="preview" class="row"></div>');
-
             var files = evt.target.files;
+
+            if (files[0] === void 0) return false; //ファイルが存在しない場合は処理を終了
+
+            $('#preview').remove();// 繰り返し実行時の処理
+            $(this).parents('.input-file').after('<div id="preview" class="row"></div>');
 
             for (var i = 0, f; f = files[i]; i++) {
 
@@ -13,7 +15,7 @@ $(document).ready(function(){
                 reader.onload = (function(theFile) {
                     return function(e) {
                         if (theFile.type.match('image.*')) {
-                            var $html = ['<div class="d-inline-block mr-1 mt-1 col-md-10 text-right"><img class="img-thumbnail" src="', e.target.result,'" title="', escape(theFile.name), '" style="height:100px;" /><div class="small text-muted text-right my-1" style="word-break: break-all;">', escape(theFile.name),'</div></div>'].join('');// 画像では画像のプレビューとファイル名の表示
+                            var $html = ['<div class="d-inline-block mb-2 col-md-12 text-center"><img class="img-thumbnail" src="', e.target.result,'" style="height:150px;" /></div>'].join('');// 画像では画像のプレビューとファイル名の表示
                         } else {
                             var $html = ['<div class="d-inline-block mr-1" style="word-break: break-all;"><span class="small">', escape(theFile.name),'</span></div>'].join('');//画像以外はファイル名のみの表示
                         }
