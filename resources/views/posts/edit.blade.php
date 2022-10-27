@@ -9,6 +9,7 @@
 <div class="container">
     <form action="{{ route('post.update', $post->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
+        @method('PUT')
 
         <div class="form-group row mt-4">
             <label for="title" class="col-md-4 col-form-label text-md-right">タイトル</label>
@@ -43,7 +44,6 @@
 
         <div class="row mb-2">
             <div class="col-md-12 text-center">
-                <button type="submit" class="btn btn-secondary mr-2">投稿を削除する</button>
                 <button type="submit" class="btn btn-primary">投稿を更新する</button>
             </div>
         </div>

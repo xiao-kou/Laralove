@@ -8,23 +8,27 @@
 
 <div class="container">
     <div class="card mt-3">
+
         <div class="text-center mt-1">
             <img src="{{ asset($post->file_path) }}" class="w-50" alt="...">
         </div>
-        <div></div>
         <div class="card-body">
             <div class="card-text">
             <div class="post-show title-area">
                 <h3 class="text-center">{{ $post->title }}</h3>
-                <div class="post-show edit-button-area">
-                    <button class="btn btn-primary btn-sm" onclick="location.href='{{ route('post.edit', $post->id) }}'">編集する</button>
+                <div class="text-right my-2 mr-3">
+                    <button class="btn btn-primary mr-2" onclick="location.href='{{ route('post.edit', $post->id) }}'">編集する</button>
+                    <button form="destroy-button" class="btn btn-secondary" type="submit">削除する</button>
                 </div>
             </div>
-                <div class="d-flex align-items-center">
-                    <a href="{{ route('user.show' , $post->user_id) }}"><img src="https://placehold.jp/500x500.png" class="rounded-circle circle-sm mr-2" alt=""></a>
-                    <div>
-                        <span>{{ $post->content }}</span>
-                    </div>
+            <form id="destroy-button" method="POST" action="{{ route('post.destroy', $post->id) }}" class="d-none">
+                @csrf
+                @method('DELETE')
+            </form>
+            <div class="d-flex align-items-center">
+                <a href="{{ route('user.show' , $post->user_id) }}"><img src="https://placehold.jp/500x500.png" class="rounded-circle circle-sm mr-2" alt=""></a>
+                <div>
+                    <span>{{ $post->content }}</span>
                 </div>
             </div>
         </div>

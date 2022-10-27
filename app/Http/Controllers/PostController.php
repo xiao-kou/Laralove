@@ -56,7 +56,7 @@ class PostController extends Controller
     public function update(PostFormRequest $request, $id)
     {
         //ファイルを編集
-        $post = Post::where('id', $id)->first(); //編集対象の投稿を取得
+        $post = Post::find($id); //編集対象の投稿を取得
 
         $image = $request->file('input_file'); //リクエストされたファイルを取得
 
@@ -80,5 +80,13 @@ class PostController extends Controller
         $post->update($update_data);
 
         return redirect()->route('post.show', $id);
+    }
+
+    public function destroy($id)
+    {
+        //投稿を削除
+        $post = Post::find($id);
+        $post->delete();
+        return redirect()->route('user.show', $post->user_id);
     }
 }
