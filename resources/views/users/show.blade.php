@@ -28,7 +28,7 @@
     <hr>
     <div class="tab-content">
         <div id="photo" class="tab-pane active">
-            <div class="d-flex row">
+            <div class="d-flex row align-items-center">
                 @foreach($user->posts as $post)
                     <div class="col-4">
                         <a href="{{ route('post.show', ['id' => $post->id]) }}"><img src="{{ asset($post->file_path) }}" class="w-100" alt="..."></a>
