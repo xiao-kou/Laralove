@@ -13,12 +13,12 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::orderByDesc('id')->get();
+
         return view('posts.index', compact('posts'));
     }
 
-    public function show($id)
+    public function show(Post $post)
     {
-        $post = Post::find($id);
         return view('posts.show', compact('post'));
     }
 
@@ -29,10 +29,11 @@ class PostController extends Controller
 
     public function store(PostFormRequest $request)
     {
-        //ファイル保存
-        $dir = 'posts'; //ディレクトリ名
+        //ディレクトリ名
+        $dir = 'posts';
 
-        $store_file_name = basename($request->file('input_file')->store('public/' . $dir)); //ストレージに保存
+        //ストレージに保存
+        $store_file_name = basename($request->file('input_file')->store('public/' . $dir));
 
         //登録処理
         $post = Post::create([
@@ -43,33 +44,40 @@ class PostController extends Controller
             'user_id' => Auth::id(),
         ]);
 
-        return redirect()->route('post.show', $post->id);
+        return redirect()->route('posts.show', $post->id);
     }
 
-    public function edit($id)
+    public function edit(Post $post)
     {
-        $post = Post::find($id);
+        //認可
+        $this->authorize('update', $post);
 
         return view('posts.edit', compact('post'));
     }
 
-    public function update(PostFormRequest $request, $id)
+    public function update(PostFormRequest $request, Post $post)
     {
-        //ファイルを編集
-        $post = Post::find($id); //編集対象の投稿を取得
+        //認可
+        $this->authorize('update', $post);
 
-        $image = $request->file('input_file'); //リクエストされたファイルを取得
+        //ファイルを取得
+        $image = $request->file('input_file');
 
+        //初期化
         $update_data = [];
 
         //ファイルが存在する場合
         if ($image) {
-            $dir = 'posts'; //ディレクトリ名
+            //ディレクトリ名
+            $dir = 'posts';
 
-            Storage::disk('public')->delete($post->file_path); //現在の画像を削除
+            //現在の画像を削除
+            Storage::disk('public')->delete($post->file_path);
 
-            $store_file_name = basename($image->store('public/' . $dir)); //ストレージに保存
+            //ストレージに保存
+            $store_file_name = basename($image->store('public/' . $dir));
 
+            //データを格納
             $update_data['file_name'] = $image->getClientOriginalName();
             $update_data['file_path'] = 'storage/' . $dir . '/' . $store_file_name;
         }
@@ -79,14 +87,17 @@ class PostController extends Controller
         $update_data['content'] = $request->content;
         $post->update($update_data);
 
-        return redirect()->route('post.show', $id);
+        return redirect()->route('posts.show', $post->id);
     }
 
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //投稿を削除
-        $post = Post::find($id);
+        //認可
+        $this->authorize('delete', $post);
+
+        //削除処理
         $post->delete();
+
         return redirect()->route('user.show', $post->user_id);
     }
 }

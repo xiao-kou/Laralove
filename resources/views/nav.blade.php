@@ -6,7 +6,7 @@
 
     @auth
       <li class="nav-item">
-        <a class="nav-link" href="{{ route('post.create') }}"><i class="mr-1"></i>投稿する</a>
+        <a class="nav-link" href="{{ route('posts.create') }}"><i class="mr-1"></i>投稿する</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{{ route('user.index') }}"><i class="mr-1"></i>ユーザー一覧</a>

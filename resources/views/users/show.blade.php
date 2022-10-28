@@ -31,7 +31,7 @@
             <div class="d-flex row align-items-center">
                 @foreach($user->posts as $post)
                     <div class="col-4">
-                        <a href="{{ route('post.show', ['id' => $post->id]) }}"><img src="{{ asset($post->file_path) }}" class="w-100" alt="..."></a>
+                        <a href="{{ route('posts.show', ['post' => $post->id]) }}"><img src="{{ asset($post->file_path) }}" class="w-100" alt="..."></a>
                     </div>
                 @endforeach
             </div>
@@ -40,7 +40,7 @@
             <div class="d-flex row align-items-center">
                 @foreach($user->posts as $post)
                     <div class="col-4">
-                        <a href="{{ route('post.show', ['id' => $post->id]) }}"><img src="{{ asset($post->file_path) }}" class="w-100" alt="..."></a>
+                        <a href="{{ route('posts.show', ['post' => $post->id]) }}"><img src="{{ asset($post->file_path) }}" class="w-100" alt="..."></a>
                     </div>
                 @endforeach
             </div>

@@ -9,7 +9,7 @@
     <div class="row d-flex align-items-center mt-1">
         @foreach($posts as $post)
             <div class="col-md-8 offset-md-2 card my-3 bg-light">
-                <a href="{{ route('post.show', ['id' => $post->id]) }}"><img src="{{ asset($post->file_path) }}" class="w-100" alt="..."></a>
+                <a href="{{ route('posts.show', ['post' => $post->id]) }}"><img src="{{ asset($post->file_path) }}" class="w-100" alt="..."></a>
             </div>
         @endforeach
     </div>

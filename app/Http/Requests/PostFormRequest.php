@@ -34,11 +34,11 @@ class PostFormRequest extends FormRequest
 
         //共通しないルール
         switch ($route) {
-            case 'post.store';
+            case 'posts.store';
                 $rules['input_file'] = 'required|file|image|mimes:jpeg,png,jpg,gif|max:1024';
                 break;
 
-            case 'post.update';
+            case 'posts.update';
                 $rules['input_file'] = 'nullable|file|image|mimes:jpeg,png,jpg,gif|max:1024';
                 break;
         }

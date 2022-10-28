@@ -15,13 +15,13 @@ use Illuminate\Support\Facades\Auth;
 */
 
 // Post Route
-Route::get('/', 'PostController@index')->name('post.index');
-Route::get('/post/show/{id}', 'PostController@show')->name('post.show');
-Route::get('/post/create', 'PostController@create')->name('post.create')->middleware('auth');
-Route::post('/post/store', 'PostController@store')->name('post.store')->middleware('auth');
-Route::get('/post/edit/{id}', 'PostController@edit')->name('post.edit')->middleware('auth');
-Route::put('/post/update/{id}', 'PostController@update')->name('post.update')->middleware('auth');
-Route::delete('/post/{id}', 'PostController@destroy')->name('post.destroy')->middleware('auth');
+Route::get('/', 'PostController@index')->name('posts.index');
+Route::post('/posts', 'PostController@store')->name('posts.store')->middleware('auth');
+Route::get('/posts/create', 'PostController@create')->name('posts.create')->middleware('auth');
+Route::get('/posts/{post}', 'PostController@show')->name('posts.show');
+Route::get('/posts/{post}/edit', 'PostController@edit')->name('posts.edit')->middleware('auth');
+Route::put('/posts/{post}', 'PostController@update')->name('posts.update')->middleware('auth');
+Route::delete('/posts/{post}', 'PostController@destroy')->name('posts.destroy')->middleware('auth');
 
 // User Route
 Route::get('/user/show/{id}', 'UserController@show')->name('user.show');
