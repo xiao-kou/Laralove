@@ -16,10 +16,12 @@
             <div class="card-text">
             <div class="post-show title-area">
                 <h3 class="text-center">{{ $post->title }}</h3>
-                <div class="text-right my-2 mr-3">
-                    <button class="btn btn-primary mr-2" onclick="location.href='{{ route('posts.edit', $post->id) }}'">編集する</button>
-                    <button form="destroy-button" class="btn btn-secondary" type="submit" onclick="return confirm('本当に削除しますか?')">削除する</button>
-                </div>
+                @canany(['update', 'delete'], $post)
+                    <div class="text-right my-2 mr-3">
+                            <button class="btn btn-primary mr-2" onclick="location.href='{{ route('posts.edit', $post->id) }}'">編集する</button>
+                            <button form="destroy-button" class="btn btn-secondary" type="submit" onclick="return confirm('本当に削除しますか?')">削除する</button>
+                    </div>
+                @endcan
             </div>
             <form id="destroy-button" method="POST" action="{{ route('posts.destroy', $post->id) }}" class="d-none">
                 @csrf
