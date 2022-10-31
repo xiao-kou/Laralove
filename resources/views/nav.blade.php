@@ -30,10 +30,12 @@
           <i class="fas fa-user-circle"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-right dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-          <button class="dropdown-item" type="button"
-                  onclick="location.href='/'">
-            マイページ
-          </button>
+          @auth
+            <button class="dropdown-item" type="button"
+                    onclick="location.href='{{ route('user.show', auth()->id()) }}'">
+              マイページ
+            </button>
+          @endauth
           <div class="dropdown-divider"></div>
           <button form="logout-button" class="dropdown-item" type="submit">
             ログアウト
