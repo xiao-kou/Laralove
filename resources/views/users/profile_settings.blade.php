@@ -1,6 +1,6 @@
 @extends('app')
 
-@section('title', 'Laralove | Register')
+@section('title', 'Laralove | Profile Settings')
 
 @section('content')
 
@@ -10,17 +10,25 @@
     <div class="row justify-content-center mt-4">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">ユーザーを作成</div>
+                <div class="card-header">プロフィールを設定</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('user.profile_update', $user->id) }}" enctype="multipart/form-data">
                         @csrf
+                        @method('PUT')
+
+                        <div class="text-center mb-4 border" id="profile_image_settings_area">
+                            <h6 class="mt-3">プロフィール画像を選択</h6>
+                            <img src="{{ asset($user->profile_image_path) }}"  alt="" class="rounded-circle circle-lg mb-1" id="profile_image">
+                        </div>
+
+                        <input type="file" name="input_image" class="d-none" accept="image/png, image/jpeg, image/jpg, image/gif">
 
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">名前</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name', $user->name) }}" required autocomplete="name" autofocus>
 
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
@@ -31,12 +39,12 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">メールアドレス</label>
+                            <label for="introduction" class="col-md-4 col-form-label text-md-right">自己紹介</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                                <textarea name="introduction" id="introduction" cols="20" rows="3" class="form-control @error('introduction') is-invalid @enderror">{{ $user->introduction }}</textarea>
 
-                                @error('email')
+                                @error('introduction')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -45,12 +53,12 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="screen_name" class="col-md-4 col-form-label text-md-right">ユーザー名</label>
+                            <label for="location" class="col-md-4 col-form-label text-md-right">場所</label>
 
                             <div class="col-md-6">
-                                <input id="screen_name" type="text" class="form-control @error('screen_name') is-invalid @enderror" name="screen_name" value="{{ old('screen_name') }}",  required>
+                                <input type="text" name="location" id="location" class="form-control @error('location') is-invalid @enderror" value="{{ old('location', $user->location) }}">
 
-                                @error('screen_name')
+                                @error('location')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -59,31 +67,27 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">パスワード</label>
+                            <label for="sex" class="col-md-4 col-form-label text-md-right">性別</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                                <select name="sex" id="sex" class="form-control @error('sex') is-invalid @enderror" required>
+                                    @foreach(App\Consts\SexConst::List as $key => $value)
+                                        <option value="{{ $key }}" @if ($user->sex == $key) selected @endif>{{ $value }}</option>
+                                    @endforeach
+                                </select>
 
-                                @error('password')
+                                @error('sex')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">パスワード確認</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    登録する
+                                    保存する
                                 </button>
                             </div>
                         </div>

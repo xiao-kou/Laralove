@@ -26,6 +26,10 @@ Route::delete('/posts/{post}', 'PostController@destroy')->name('posts.destroy')-
 // User Route
 Route::get('/user/show/{id}', 'UserController@show')->name('user.show');
 Route::get('/user/index', 'UserController@index')->name('user.index');
+Route::get('/user/{user}/edit', 'UserController@edit')->name('user.edit')->middleware('auth');
+Route::put('/user/{user}', 'UserController@update')->name('user.update')->middleware('auth');
+Route::get('/user/{user}/profile-settings', 'UserController@showProfileSettingsForm')->name('user.profile_settings')->middleware('auth');
+Route::put('/user/{user}/profile-update', 'UserController@updateProfile')->name('user.profile_update')->middleware('auth');
 
 // Messages Route
 Route::get('/message/show/{sender_id}/{recipient_id}', 'MessageController@show')->name('message.show');

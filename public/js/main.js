@@ -36,4 +36,22 @@ $(document).ready(function(){
             $('.custom-file-input').val('');
         })
 
+        $('#profile_image_settings_area').click(function(){
+            $('input[name=input_image]').click();
+            $('input[name=input_image]').change(function(evt) {
+                var file = evt.target.files[0];
+
+                if (file === void 0) return false; //ファイルが存在しない場合は処理を終了
+
+                var reader = new FileReader();
+
+                reader.readAsDataURL(file);
+
+                reader.onload = (function(theFile) {
+                    $('#profile_image').attr('src', theFile.target.result);
+                });
+
+            });
+        })
+
 });
