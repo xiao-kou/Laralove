@@ -7,6 +7,7 @@ use App\Http\Requests\UserFormRequest;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -38,6 +39,11 @@ class UserController extends Controller
         $this->authorize('update', $user);
 
         //更新処理
+        if ($request->has('new_password')){
+            $user->update(['password' => Hash::make($request->new_password)]);
+        } else {
+            $user->update($request->validated());
+        }
 
         return redirect()->route('user.show', $user->id);
     }

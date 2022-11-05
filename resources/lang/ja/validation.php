@@ -118,6 +118,7 @@ return [
     'url' => 'The :attribute format is invalid.',
     'uuid' => 'The :attribute must be a valid UUID.',
     'alpha_num_check' => ':attribute は半角英数字で入力してください。',
+    'current_password_check' => ':attribute が一致しません。',
 
     /*
     |--------------------------------------------------------------------------

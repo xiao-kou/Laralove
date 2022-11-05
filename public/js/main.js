@@ -54,4 +54,21 @@ $(document).ready(function(){
             });
         })
 
+        $('.user_edit .nav-item').click(function(){
+            //クリックしたタブコンテンツのID名を取得
+            var activation = $(this).data('tab');
+
+            //クリックしたタブコンテンツをアクティブに変更
+            $(activation).addClass('d-block').removeClass('d-none');
+
+            //クリックしたタブコンテンツのインプット要素を送信可能に変更
+            $(activation).find('input').prop('disabled', false);
+
+            //クリックしていないタブコンテンツを非アクティブに変更
+            $('.tab-pane').not(activation).addClass('d-none').removeClass('d-block');
+
+            //クリックしていないタブコンテンツのインプット要素を送信不可に変更
+            $('.tab-pane').not(activation).find('input').prop('disabled', true);
+        })
+
 });

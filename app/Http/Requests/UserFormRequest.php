@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\alpha_num_check;
+use App\Rules\current_password_check;
 
 class UserFormRequest extends FormRequest
 {
@@ -27,13 +29,20 @@ class UserFormRequest extends FormRequest
         $route = $this->route()->getName();
 
         //共通するルール
-        $rules = [
-            'name' => 'required|string|max:50'
-        ];
+        $rules = [];
+        $a = new alpha_num_check();
 
         //共通しないルール
         switch ($route) {
+            case 'user.update';
+                $rules['screen_name'] = ['filled', 'string', 'min:4', 'max:14', 'unique:users', new alpha_num_check()];
+                $rules['email'] = ['filled', 'string', 'email', 'max:255', 'unique:users'];
+                $rules['current_password'] = ['filled', 'string', 'min:8', new current_password_check()];
+                $rules['new_password'] = ['filled', 'string', 'min:8'];
+                break;
+
             case 'user.profile_update';
+                $rules['name'] = 'required|string|max:50';
                 $rules['sex'] = 'required|string|max:1';
                 $rules['input_image'] = 'nullable|file|image|mimes:jpeg,png,jpg,gif|max:1024';
                 $rules['location'] = 'nullable|string|max:30';
