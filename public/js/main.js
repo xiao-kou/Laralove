@@ -82,7 +82,7 @@ $(document).ready(function(){
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: '/users/follow',
+                url: `/users/${userId}/follow`,
                 method: 'POST',
                 data: {
                     'user_id': userId
@@ -113,7 +113,7 @@ $(document).ready(function(){
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: '/users/unfollow',
+                url: `/users/${userId}/unfollow`,
                 method: 'POST',
                 data: {
                     'user_id': userId,
@@ -133,5 +133,60 @@ $(document).ready(function(){
                 console.log('ajax fail');
             });
         });
+
+        //いいね登録処理
+        $(document).on('click', '.btn_like', function(){
+            var postId = $(this).data('post-id');
+
+            //ajax処理
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: `/like/${postId}`,
+                method: 'POST',
+                data: {
+                    'post_id': postId
+                },
+            })
+            //成功した場合
+            .done(function(data) {
+                //デバッグログ
+                console.log('ajax success', data);
+                //いいね中をいいねボタンに変更
+                $('.btn_like').text('いいね中 ' + data.likes_count).removeClass('btn_like btn-primary').addClass('btn_unlike btn-secondary');
+            })
+            .fail(function() {
+                console.log('ajax fail');
+            });
+        });
+
+        //いいね解除処理
+        $(document).on('click', '.btn_unlike', function(){
+            var postId = $(this).data('post-id');
+
+            //ajax処理
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: `/unlike/${postId}`,
+                method: 'POST',
+                data: {
+                    'post_id': postId,
+                    '_method': 'DELETE'
+                },
+            })
+            //成功した場合
+            .done(function(data) {
+                //デバッグログ
+                console.log('ajax success', data);
+                //いいね中をいいねボタンに変更
+                $('.btn_unlike').text('いいね ' + data.likes_count).removeClass('btn_unlike btn-secondary').addClass('btn_like btn-primary');
+            })
+            .fail(function(data) {
+                console.log('ajax fail');
+            })
+        })
 
 });

@@ -19,8 +19,16 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
+        //投稿したユーザーを取得
         $user = $post->user()->first();
-        return view('posts.show', compact('post', 'user'));
+
+        //いいねの数を取得
+        $likes_count = $post->likes()->count();
+
+        //投稿をいいね中か判定
+        $is_liking = $user->is_liking($post->id);
+
+        return view('posts.show', compact('post', 'user', 'likes_count', 'is_liking'));
     }
 
     public function create()

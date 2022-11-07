@@ -6,6 +6,8 @@
 
 @include('nav')
 
+<!-- ajax用のheader -->
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <div class="container">
     <div class="card mt-3">
         <div class="text-center mt-1">
@@ -29,13 +31,17 @@
             </div>
         </div>
     </div>
-    @canany(['update', 'delete'], $post)
-        <div class="text-right my-2 mr-3">
-                <button class="btn btn-primary mr-2" onclick="location.href='{{ route('posts.edit', $post->id) }}'">編集する</button>
-                <button form="destroy-button" class="btn btn-secondary" type="submit" onclick="return confirm('本当に削除しますか?')">削除する</button>
-        </div>
-    @endcan
-
+    <div class="text-right my-2 mr-3">
+        @if($is_liking)
+            <button class="btn btn-secondary mr-2 btn_unlike" data-post-id="{{ $post->id }}">いいね中 {{ $likes_count }}</button>
+        @else
+            <button class="btn btn-primary mr-2 btn_like" data-post-id="{{ $post->id }}">いいね {{ $likes_count }}</button>
+        @endif
+        @canany(['update', 'delete'], $post)
+            <button class="btn btn-primary mr-2" onclick="location.href='{{ route('posts.edit', $post->id) }}'">編集する</button>
+            <button form="destroy-button" class="btn btn-secondary" type="submit" onclick="return confirm('本当に削除しますか?')">削除する</button>
+        @endcan
+    </div>
 </div>
 
 @endsection

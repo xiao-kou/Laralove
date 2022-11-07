@@ -60,10 +60,37 @@ class User extends Authenticatable
         return $this->belongsToMany('App\User', 'following_users', 'followed_id', 'follower_id');
     }
 
-    public function isFollowed($id)
+    public function follow($user_id)
+    {
+        return $this->followings()->syncWithoutDetaching($user_id);
+    }
+
+    public function unfollow($user_id)
+    {
+        return $this->followings()->detach($user_id);
+    }
+
+    public function getFollowersCount()
+    {
+        return $this->followers()->count();
+    }
+
+    public function isFollowing($user_id)
     {
         return Auth::check()
-                    ? Auth::user()->followings()->where('users.id', $id)->exists()
+                    ? Auth::user()->followings()->where('users.id', $user_id)->exists()
+                    : false;
+    }
+
+    public function likes()
+    {
+        return $this->belongsToMany('App\Post', 'likes', 'user_id', 'post_id');
+    }
+
+    public function is_liking($post_id)
+    {
+        return Auth::check()
+                    ? Auth::user()->likes()->where('post_id', $post_id)->exists()
                     : false;
     }
 }

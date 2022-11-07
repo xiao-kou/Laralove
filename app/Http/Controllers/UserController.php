@@ -33,7 +33,7 @@ class UserController extends Controller
 
         //閲覧ユーザーをフォロー中か判定
         $user_model = new User;
-        $is_following = $user_model->isFollowed($id);
+        $is_following = $user_model->isFollowing($id);
 
         return view('users.show', compact('user', 'followings_count', 'followers_count', 'is_following'));
     }
@@ -102,13 +102,13 @@ class UserController extends Controller
         return redirect()->route('users.show', $user->id);
     }
 
-    public function follow(Request $request)
+    public function follow(Request $request, User $user)
     {
         //フォロー処理
-        Auth::user()->followings()->syncWithoutDetaching($request->user_id);
+        Auth::user()->follow($request->user_id);
 
         //フォロワーの数を取得
-        $followers_count = User::find($request->user_id)->followers()->count();
+        $followers_count = $user->getFollowersCount();
         $param = [
             'followers_count' => $followers_count
         ];
@@ -116,13 +116,13 @@ class UserController extends Controller
         return response()->json($param);
     }
 
-    public function unfollow(Request $request)
+    public function unfollow(Request $request, User $user)
     {
         //アンフォロー処理
-        Auth::user()->followings()->detach($request->user_id);
+        Auth::user()->unfollow($request->user_id);
 
         //フォロワーの数を取得
-        $followers_count = User::find($request->user_id)->followers()->count();
+        $followers_count = $user->getFollowersCount();
         $param = [
             'followers_count' => $followers_count
         ];

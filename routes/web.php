@@ -30,10 +30,16 @@ Route::get('/users/{user}/edit', 'UserController@edit')->name('users.edit')->mid
 Route::put('/users/{user}', 'UserController@update')->name('users.update')->middleware('auth');
 Route::get('/users/{user}/profile-settings', 'UserController@showProfileSettingsForm')->name('users.profile_settings')->middleware('auth');
 Route::put('/users/{user}/profile-update', 'UserController@updateProfile')->name('users.profile_update')->middleware('auth');
-Route::post('/users/follow', 'UserController@follow')->name('users.follow')->middleware('auth');
-Route::delete('/users/unfollow', 'UserController@unfollow')->name('users.unfollow')->middleware('auth');
+
+// Follow Route
+Route::post('/users/{user}/follow', 'UserController@follow')->name('users.follow')->middleware('auth');
+Route::delete('/users/{user}/unfollow', 'UserController@unfollow')->name('users.unfollow')->middleware('auth');
 Route::get('/users/{user}/followers', 'UserController@followers')->name('users.followers')->middleware('auth');
 Route::get('/users/{user}/followings', 'UserController@followings')->name('users.followings')->middleware('auth');
+
+// Like Route
+Route::post('/like/{id}', 'LikeController@store')->name('like.store')->middleware('auth');
+Route::delete('/unlike/{id}', 'LikeController@destroy')->name('like.destroy')->middleware('auth');
 
 // Messages Route
 Route::get('/message/show/{sender_id}/{recipient_id}', 'MessageController@show')->name('message.show');
