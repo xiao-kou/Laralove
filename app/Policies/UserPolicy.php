@@ -94,4 +94,18 @@ class UserPolicy
     {
         //
     }
+
+    /**
+     * Determine whether the user can follow the target user.
+     *
+     * @param \App\User $user
+     * @param \App\User $target_user
+     * @return void
+     */
+    public function follow(User $user, User $target_user)
+    {
+        return Auth::id() !== $target_user->id
+                    ? Response::allow()
+                    : Response::deny('このユーザーをフォローする権限がありません。');
+    }
 }

@@ -23,7 +23,7 @@
                     </li>
                 </ul>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('user.update', $user->id) }}" class="tab-content">
+                    <form method="POST" action="{{ route('users.update', $user->id) }}" class="tab-content">
                         @csrf
                         @method('PUT')
 

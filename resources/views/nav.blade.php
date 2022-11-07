@@ -9,7 +9,7 @@
         <a class="nav-link" href="{{ route('posts.create') }}"><i class="mr-1"></i>投稿する</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{ route('user.index') }}"><i class="mr-1"></i>ユーザー一覧</a>
+        <a class="nav-link" href="{{ route('users.index') }}"><i class="mr-1"></i>ユーザー一覧</a>
       </li>
     @endauth
 
@@ -31,12 +31,12 @@
         </a>
         <div class="dropdown-menu dropdown-menu-right dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
             <button class="dropdown-item" type="button"
-                    onclick="location.href='{{ route('user.show', auth()->id()) }}'">
+                    onclick="location.href='{{ route('users.show', auth()->id()) }}'">
               マイページ
             </button>
             <div class="dropdown-divider"></div>
             <button class="dropdown-item" type="button"
-                    onclick="location.href='{{ route('user.edit', auth()->id()) }}'">
+                    onclick="location.href='{{ route('users.edit', auth()->id()) }}'">
               ユーザー設定
             </button>
           <div class="dropdown-divider"></div>

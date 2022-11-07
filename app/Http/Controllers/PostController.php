@@ -19,7 +19,8 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        return view('posts.show', compact('post'));
+        $user = $post->user()->first();
+        return view('posts.show', compact('post', 'user'));
     }
 
     public function create()
@@ -98,6 +99,6 @@ class PostController extends Controller
         //削除処理
         $post->delete();
 
-        return redirect()->route('user.show', $post->user_id);
+        return redirect()->route('users.show', $post->user_id);
     }
 }

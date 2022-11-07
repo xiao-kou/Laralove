@@ -6,16 +6,24 @@
 
 @include('nav')
 
+<!-- ajax用のheader -->
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <div class="container">
     <div class="d-flex justify-content-center align-items-center mt-3">
         <img src="{{ asset($user->profile_image_path) }}" alt="" class="rounded-circle circle-md">
         <div>
             <h4 class="my-0 ml-4">{{ $user->name }}</h4>
             <h5 class="my-1 ml-4">{{ '@' . $user->screen_name }}</h5>
-            <button class="mt-1  ml-4 btn btn-primary btn-sm">フォロー</button>
+            @can('follow', $user)
+                @if($is_following)
+                    <button class="mt-1 ml-4 btn btn-secondary btn-sm btn_unfollow" data-user-id="{{ $user->id }}">フォロー中</button>
+                @else
+                    <button class="mt-1 ml-4 btn btn-primary btn-sm btn_follow" data-user-id="{{ $user->id }}" >フォロー</button>
+                @endif
+            @endcan
             <!-- <button class="ml-2 mt-1 btn btn-secondary btn-sm">フォロワー一覧</button> -->
             @can('update', $user)
-                <button class="ml-4 mt-1 btn btn-secondary btn-sm d-block" onclick="location.href = '{{ route('user.profile_settings', $user->id) }}'">プロフィールを設定する</button>
+                <button class="ml-4 mt-1 btn btn-primary btn-sm d-block" onclick="location.href = '{{ route('users.profile_settings', $user->id) }}'">プロフィールを設定する</button>
             @endcan
         </div>
     </div>
@@ -33,8 +41,8 @@
         </h6>
     </div>
     <div class="d-flex justify-content-center align-items-center mt-2">
-        <a href="" class="mr-4 text-secondary">212 フォロー中</a>
-        <a href="" class="text-secondary">891 フォロワー</a>
+        <a href="{{ route('users.followings', $user->id) }}" class="mr-4 text-secondary"><span id="followings_count">{{ $followings_count }}</span><span> フォロー中</span></a>
+        <a href="{{ route('users.followers', $user->id) }}" class="text-secondary"><span id="followers_count">{{ $followers_count }}</span><span> フォロワー</span></a>
     </div>
     <hr>
     <ul class="nav nav-tabs nav-pills d-flex justify-content-around">

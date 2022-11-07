@@ -21,20 +21,21 @@
                     @method('DELETE')
                 </form>
                 <div class="d-flex align-items-center">
-                    <a href="{{ route('user.show' , $post->user_id) }}"><img src="https://placehold.jp/500x500.png" class="rounded-circle circle-sm mr-2" alt=""></a>
+                    <a href="{{ route('users.show' , $post->user_id) }}"><img src="{{ asset($user->profile_image_path) }}" class="rounded-circle circle-sm mr-2" alt=""></a>
                     <div>
                         <span>{{ $post->content }}</span>
                     </div>
                 </div>
             </div>
         </div>
-        @canany(['update', 'delete'], $post)
-            <div class="text-right my-2 mr-3">
-                    <button class="btn btn-primary mr-2" onclick="location.href='{{ route('posts.edit', $post->id) }}'">編集する</button>
-                    <button form="destroy-button" class="btn btn-secondary" type="submit" onclick="return confirm('本当に削除しますか?')">削除する</button>
-            </div>
-        @endcan
     </div>
+    @canany(['update', 'delete'], $post)
+        <div class="text-right my-2 mr-3">
+                <button class="btn btn-primary mr-2" onclick="location.href='{{ route('posts.edit', $post->id) }}'">編集する</button>
+                <button form="destroy-button" class="btn btn-secondary" type="submit" onclick="return confirm('本当に削除しますか?')">削除する</button>
+        </div>
+    @endcan
+
 </div>
 
 @endsection

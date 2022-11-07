@@ -24,12 +24,16 @@ Route::put('/posts/{post}', 'PostController@update')->name('posts.update')->midd
 Route::delete('/posts/{post}', 'PostController@destroy')->name('posts.destroy')->middleware('auth');
 
 // User Route
-Route::get('/user/show/{id}', 'UserController@show')->name('user.show');
-Route::get('/user/index', 'UserController@index')->name('user.index');
-Route::get('/user/{user}/edit', 'UserController@edit')->name('user.edit')->middleware('auth');
-Route::put('/user/{user}', 'UserController@update')->name('user.update')->middleware('auth');
-Route::get('/user/{user}/profile-settings', 'UserController@showProfileSettingsForm')->name('user.profile_settings')->middleware('auth');
-Route::put('/user/{user}/profile-update', 'UserController@updateProfile')->name('user.profile_update')->middleware('auth');
+Route::get('/users/{id}', 'UserController@show')->name('users.show');
+Route::get('/users', 'UserController@index')->name('users.index');
+Route::get('/users/{user}/edit', 'UserController@edit')->name('users.edit')->middleware('auth');
+Route::put('/users/{user}', 'UserController@update')->name('users.update')->middleware('auth');
+Route::get('/users/{user}/profile-settings', 'UserController@showProfileSettingsForm')->name('users.profile_settings')->middleware('auth');
+Route::put('/users/{user}/profile-update', 'UserController@updateProfile')->name('users.profile_update')->middleware('auth');
+Route::post('/users/follow', 'UserController@follow')->name('users.follow')->middleware('auth');
+Route::delete('/users/unfollow', 'UserController@unfollow')->name('users.unfollow')->middleware('auth');
+Route::get('/users/{user}/followers', 'UserController@followers')->name('users.followers')->middleware('auth');
+Route::get('/users/{user}/followings', 'UserController@followings')->name('users.followings')->middleware('auth');
 
 // Messages Route
 Route::get('/message/show/{sender_id}/{recipient_id}', 'MessageController@show')->name('message.show');

@@ -8,31 +8,31 @@
 
 <div class="container">
     <div class="d-flex justify-content-start align-items-center mt-3">
-        <a href="{{ route('user.show', '1') }}"><img src="https://placehold.jp/500x500.png" alt="" class="rounded-circle circle-sm mr-2"></a>
+        <a href="{{ route('users.show', '1') }}"><img src="https://placehold.jp/500x500.png" alt="" class="rounded-circle circle-sm mr-2"></a>
         <div class="balloon-left">
             <h5>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</h5>
         </div>
     </div>
     <div class="d-flex flex-row-reverse align-items-center mt-3">
-        <a href="{{ route('user.show', '1') }}"><img src="https://placehold.jp/500x500.png" alt="" class="rounded-circle circle-sm ml-2"></a>
+        <a href="{{ route('users.show', '1') }}"><img src="https://placehold.jp/500x500.png" alt="" class="rounded-circle circle-sm ml-2"></a>
         <div class="balloon-right">
             <h5>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</h5>
         </div>
     </div>
     <div class="d-flex flex-row-reverse align-items-center mt-3">
-        <a href="{{ route('user.show', '1') }}"><img src="https://placehold.jp/500x500.png" alt="" class="rounded-circle circle-sm ml-2"></a>
+        <a href="{{ route('users.show', '1') }}"><img src="https://placehold.jp/500x500.png" alt="" class="rounded-circle circle-sm ml-2"></a>
         <div class="balloon-right">
             <h5>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</h5>
         </div>
     </div>
     <div class="d-flex flex-row-reverse align-items-center mt-3">
-        <a href="{{ route('user.show', '1') }}"><img src="https://placehold.jp/500x500.png" alt="" class="rounded-circle circle-sm ml-2"></a>
+        <a href="{{ route('users.show', '1') }}"><img src="https://placehold.jp/500x500.png" alt="" class="rounded-circle circle-sm ml-2"></a>
         <div class="balloon-right">
             <h5>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</h5>
         </div>
     </div>
     <div class="d-flex justify-content-start align-items-center mt-3">
-        <a href="{{ route('user.show', '1') }}"><img src="https://placehold.jp/500x500.png" alt="" class="rounded-circle circle-sm mr-2"></a>
+        <a href="{{ route('users.show', '1') }}"><img src="https://placehold.jp/500x500.png" alt="" class="rounded-circle circle-sm mr-2"></a>
         <div class="balloon-left w-50 text-center">
             <img src="https://placehold.jp/500x500.png" alt="" class="w-100">
         </div>

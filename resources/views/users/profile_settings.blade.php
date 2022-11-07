@@ -13,7 +13,7 @@
                 <div class="card-header">プロフィールを設定</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('user.profile_update', $user->id) }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('users.profile_update', $user->id) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 

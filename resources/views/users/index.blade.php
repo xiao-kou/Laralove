@@ -9,7 +9,7 @@
 <div class="container">
     @foreach($users as $user)
         <div class="d-flex justify-content-start align-items-center mt-3">
-            <a href="{{ route('user.show', $user->id) }}"><img src="{{ asset($user->profile_image_path) }}" alt="" class="rounded-circle circle-sm"></a>
+            <a href="{{ route('users.show', $user->id) }}"><img src="{{ asset($user->profile_image_path) }}" alt="" class="rounded-circle circle-sm"></a>
             <div class="ml-4">
                 <div class="d-flex align-items-center">
                     <h4>{{ $user->name }}</h4>

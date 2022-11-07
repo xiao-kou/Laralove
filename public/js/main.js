@@ -36,6 +36,7 @@ $(document).ready(function(){
             $('.custom-file-input').val('');
         })
 
+        //プロフィール画像の編集
         $('#profile_image_settings_area').click(function(){
             $('input[name=input_image]').click();
             $('input[name=input_image]').change(function(evt) {
@@ -54,6 +55,7 @@ $(document).ready(function(){
             });
         })
 
+        //ユーザー設定画面のタブ切り替え
         $('.user_edit .nav-item').click(function(){
             //クリックしたタブコンテンツのID名を取得
             var activation = $(this).data('tab');
@@ -70,5 +72,66 @@ $(document).ready(function(){
             //クリックしていないタブコンテンツのインプット要素を送信不可に変更
             $('.tab-pane').not(activation).find('input').prop('disabled', true);
         })
+
+        //フォロー処理
+        $(document).on('click', '.btn_follow', function(){
+            var userId = $(this).data('user-id');
+
+            //Ajax処理
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/users/follow',
+                method: 'POST',
+                data: {
+                    'user_id': userId
+                },
+            })
+            //成功した場合
+            .done(function(data) {
+                //デバッグログ
+                console.log('ajax success', data);
+                //フォローボタンをフォロー中に変更
+                $('.btn_follow').text('フォロー中').removeClass('btn_follow btn-primary').addClass('btn_unfollow btn-secondary');
+                //フォロワーの数を変更
+                if ($('#followers_count').length) {
+                    $('#followers_count').text(data.followers_count);
+                }
+            })
+            .fail(function() {
+                console.log('ajax fail');
+            });
+        });
+
+        //アンフォロー処理
+        $(document).on('click', '.btn_unfollow', function(){
+            var userId = $(this).data('user-id');
+
+            //Ajax処理
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/users/unfollow',
+                method: 'POST',
+                data: {
+                    'user_id': userId,
+                    '_method': 'DELETE'
+                },
+            })
+            //成功した場合
+            .done(function(data) {
+                //デバッグログ
+                console.log('ajax success', data);
+                //フォロー中をフォローボタンに変更
+                $('.btn_unfollow').text('フォロー').removeClass('btn_unfollow btn-secondary').addClass('btn_follow btn-primary');
+                //フォロワーの数を変更
+                $('#followers_count').text(data.followers_count);
+            })
+            .fail(function() {
+                console.log('ajax fail');
+            });
+        });
 
 });

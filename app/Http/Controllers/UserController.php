@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -24,7 +25,17 @@ class UserController extends Controller
             $query->orderByDesc('id')->get();
         }])->find($id);
 
-        return view('users.show', compact('user'));
+        //閲覧ユーザーのフォロー数を取得
+        $followings_count = User::find($id)->followings()->count();
+
+        //閲覧ユーザーのフォロワー数を取得
+        $followers_count = User::find($id)->followers()->count();
+
+        //閲覧ユーザーをフォロー中か判定
+        $user_model = new User;
+        $is_following = $user_model->isFollowed($id);
+
+        return view('users.show', compact('user', 'followings_count', 'followers_count', 'is_following'));
     }
 
     public function edit(User $user) {
@@ -45,7 +56,7 @@ class UserController extends Controller
             $user->update($request->validated());
         }
 
-        return redirect()->route('user.show', $user->id);
+        return redirect()->route('users.show', $user->id);
     }
 
     public function showProfileSettingsForm(User $user) {
@@ -88,6 +99,46 @@ class UserController extends Controller
         $update_data['sex'] = $request->sex;
         $user->update($update_data);
 
-        return redirect()->route('user.show', $user->id);
+        return redirect()->route('users.show', $user->id);
+    }
+
+    public function follow(Request $request)
+    {
+        //フォロー処理
+        Auth::user()->followings()->syncWithoutDetaching($request->user_id);
+
+        //フォロワーの数を取得
+        $followers_count = User::find($request->user_id)->followers()->count();
+        $param = [
+            'followers_count' => $followers_count
+        ];
+
+        return response()->json($param);
+    }
+
+    public function unfollow(Request $request)
+    {
+        //アンフォロー処理
+        Auth::user()->followings()->detach($request->user_id);
+
+        //フォロワーの数を取得
+        $followers_count = User::find($request->user_id)->followers()->count();
+        $param = [
+            'followers_count' => $followers_count
+        ];
+
+        return response()->json($param);
+    }
+
+    public function followers(User $user)
+    {
+        $followers = $user->followers()->get();
+        return view('users.followers', compact('followers'));
+    }
+
+    public function followings(User $user)
+    {
+        $followings = $user->followings()->get();
+        return view('users.followings', compact('followings'));
     }
 }
