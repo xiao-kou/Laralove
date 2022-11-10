@@ -15,13 +15,12 @@
             <h4 class="my-0 ml-4">{{ $user->name }}</h4>
             <h5 class="my-1 ml-4">{{ '@' . $user->screen_name }}</h5>
             @can('follow', $user)
-                @if($is_following)
+                @if ($is_following)
                     <button class="mt-1 ml-4 btn btn-secondary btn-sm btn_unfollow" data-user-id="{{ $user->id }}">フォロー中</button>
                 @else
                     <button class="mt-1 ml-4 btn btn-primary btn-sm btn_follow" data-user-id="{{ $user->id }}" >フォロー</button>
                 @endif
             @endcan
-            <!-- <button class="ml-2 mt-1 btn btn-secondary btn-sm">フォロワー一覧</button> -->
             @can('update', $user)
                 <button class="ml-4 mt-1 btn btn-primary btn-sm d-block" onclick="location.href = '{{ route('users.profile_settings', $user->id) }}'">プロフィールを設定する</button>
             @endcan
@@ -66,9 +65,9 @@
         </div>
         <div id="like" class="tab-pane">
             <div class="d-flex row align-items-center">
-                @foreach($user->posts as $post)
+                @foreach($user->likes as $liking_post)
                     <div class="col-4">
-                        <a href="{{ route('posts.show', ['post' => $post->id]) }}"><img src="{{ asset($post->file_path) }}" class="w-100" alt="..."></a>
+                        <a href="{{ route('posts.show', ['post' => $liking_post->id]) }}"><img src="{{ asset($liking_post->file_path) }}" class="w-100" alt="..."></a>
                     </div>
                 @endforeach
             </div>

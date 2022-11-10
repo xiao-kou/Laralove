@@ -13,7 +13,11 @@
             <div class="ml-4">
                 <div class="d-flex align-items-center">
                     <h4>{{ $user->name }}</h4>
-                    <button class="btn btn-primary btn-sm ml-3 mb-2" onclick="location.href='{{ route('message.show', ['1', '2'] ) }} '">DMを送る</button>
+                    @php
+                        $participant_ids = [auth()->id(), $user->id];
+                        sort($participant_ids);
+                    @endphp
+                    <button class="btn btn-primary btn-sm ml-3 mb-2" onclick="location.href='{{ route('rooms.show', implode('-', $participant_ids) ) }} '">DMを送る</button>
                 </div>
                 <span>{{ '@' . $user->screen_name }}</span>
             </div>

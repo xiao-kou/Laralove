@@ -30,7 +30,6 @@ class UserFormRequest extends FormRequest
 
         //共通するルール
         $rules = [];
-        $a = new alpha_num_check();
 
         //共通しないルール
         switch ($route) {

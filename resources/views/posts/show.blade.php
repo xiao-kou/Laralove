@@ -32,7 +32,7 @@
         </div>
     </div>
     <div class="text-right my-2 mr-3">
-        @if($is_liking)
+        @if ($is_liking)
             <button class="btn btn-secondary mr-2 btn_unlike" data-post-id="{{ $post->id }}">いいね中 {{ $likes_count }}</button>
         @else
             <button class="btn btn-primary mr-2 btn_like" data-post-id="{{ $post->id }}">いいね {{ $likes_count }}</button>

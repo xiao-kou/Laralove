@@ -21,7 +21,7 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $user = User::with(['posts' => function ($query) {
+        $user = User::with(['posts', 'likes' => function ($query) {
             $query->orderByDesc('id')->get();
         }])->find($id);
 
@@ -81,6 +81,7 @@ class UserController extends Controller
             //ディレクトリ名
             $dir = 'profiles';
 
+            //以前のプロフィール画像を削除
             if (basename($user->profile_image_path) !== 'default.png') {
                 Storage::disk('public')->delete($user->profile_image_path);
             }

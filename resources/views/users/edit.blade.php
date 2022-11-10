@@ -64,7 +64,7 @@
                                 <label for="current-password" class="col-md-4 col-form-label text-md-right">現在のパスワード</label>
 
                                 <div class="col-md-6">
-                                    <input id="current-password" type="password" class="form-control @error('current_password') is-invalid @enderror" name="current_password" @if(!$errors->has('current_password') && !$errors->has('new_password')) disabled="disabled" @endif required>
+                                    <input id="current-password" type="password" class="form-control @error('current_password') is-invalid @enderror" name="current_password" @if (!$errors->has('current_password') && !$errors->has('new_password')) disabled="disabled" @endif required>
 
                                     @error('current_password')
                                         <span class="invalid-feedback" role="alert">
@@ -78,7 +78,7 @@
                                 <label for="new_password" class="col-md-4 col-form-label text-md-right">新しいパスワード</label>
 
                                 <div class="col-md-6">
-                                    <input id="new_password" type="password" class="form-control" name="new_password" @if(!$errors->has('current_password') && !$errors->has('new_password')) disabled="disabled" @endif required>
+                                    <input id="new_password" type="password" class="form-control" name="new_password" @if (!$errors->has('current_password') && !$errors->has('new_password')) disabled="disabled" @endif required>
                                 </div>
                             </div>
                         </div>

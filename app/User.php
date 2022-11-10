@@ -93,4 +93,9 @@ class User extends Authenticatable
                     ? Auth::user()->likes()->where('post_id', $post_id)->exists()
                     : false;
     }
+
+    public function rooms()
+    {
+        return $this->belongsToMany('App\Room', 'messages', 'user_id', 'room_id');
+    }
 }

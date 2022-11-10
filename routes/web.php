@@ -24,8 +24,8 @@ Route::put('/posts/{post}', 'PostController@update')->name('posts.update')->midd
 Route::delete('/posts/{post}', 'PostController@destroy')->name('posts.destroy')->middleware('auth');
 
 // User Route
-Route::get('/users/{id}', 'UserController@show')->name('users.show');
 Route::get('/users', 'UserController@index')->name('users.index');
+Route::get('/users/{id}', 'UserController@show')->name('users.show');
 Route::get('/users/{user}/edit', 'UserController@edit')->name('users.edit')->middleware('auth');
 Route::put('/users/{user}', 'UserController@update')->name('users.update')->middleware('auth');
 Route::get('/users/{user}/profile-settings', 'UserController@showProfileSettingsForm')->name('users.profile_settings')->middleware('auth');
@@ -41,7 +41,12 @@ Route::get('/users/{user}/followings', 'UserController@followings')->name('users
 Route::post('/like/{id}', 'LikeController@store')->name('like.store')->middleware('auth');
 Route::delete('/unlike/{id}', 'LikeController@destroy')->name('like.destroy')->middleware('auth');
 
-// Messages Route
-Route::get('/message/show/{sender_id}/{recipient_id}', 'MessageController@show')->name('message.show');
+// Room Route
+Route::get('/rooms/{name}', 'RoomController@show')->name('rooms.show')
+            ->where('name', '[0-9]+-[0-9]+')->middleware(['auth', 'participant']);
+
+// Message Route
+Route::post('/messages/send', 'MessageController@send')->name('messages.send')->middleware('auth');
+Route::post('/messages/get-latest', 'MessageController@getLatest')->name('messages.get_Latest')->middleware('auth');
 
 Auth::routes();
