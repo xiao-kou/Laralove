@@ -96,16 +96,16 @@ function getMessages() {
         console.log('ajax success', data);
 
         $('#message_data').remove();
-        $('.container').after('<div id="message_data" class="mb-5 pb-5"></div>');
+        $('.container').after('<div id="message_data" class="mb-5 pb-5 container"></div>');
+
+        var html = '';
 
         $.each(data, function(index, val){
-            //初期化
-            var html = '';
             //自分の投稿の場合
             if (val.pivot.user_id == userId) {
                 //テキストメッセージが存在する場合
                 if (val.pivot.text !== null) {
-                    var html = `
+                    html += `
                                 <div class="d-flex flex-row-reverse align-items-center mt-3">
                                     <div class="balloon-right">
                                         <h5 class="text-center">${val.pivot.text}</h5>
@@ -115,7 +115,7 @@ function getMessages() {
                 }
                 //画像が存在する場合
                 if (val.pivot.file_path !== null){
-                    var html = `
+                    html += `
                                 <div class="d-flex flex-row-reverse align-items-center mt-3">
                                     <div class="balloon-right w-50 text-center">
                                         <img src="../${val.pivot.file_path}" alt="" class="w-100">
@@ -127,7 +127,7 @@ function getMessages() {
                 //相手の投稿の場合
                 //テキストメッセージが存在する場合
                 if (val.pivot.text !== null) {
-                    var html = `
+                    html += `
                                 <div class="d-flex justify-content-start align-items-center mt-3">
                                     <a href="{{ route('users.show', $user_message->id) }}">
                                         <img src="../${val.profile_image_path}" alt="" class="rounded-circle circle-sm mr-2">
@@ -140,7 +140,7 @@ function getMessages() {
                 }
                 //画像が存在する場合
                 if (val.pivot.file_path !== null){
-                    var html = `
+                    html += `
                                 <div class="d-flex justify-content-start align-items-center mt-3">
                                     <a href="{{ route('users.show', $user_message->id) }}">
                                         <img src="../${val.profile_image_path}" alt="" class="rounded-circle circle-sm mr-2">
@@ -152,10 +152,9 @@ function getMessages() {
                     `;
                 }
             }
-
-            $('#message_data').append(html);
-
         });
+
+        $('#message_data')[0].innerHTML = html;
 
     })
     .fail(function() {
