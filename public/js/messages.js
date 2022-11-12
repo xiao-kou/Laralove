@@ -5,9 +5,9 @@ $(function() {
     },0);
 
     //メッセージ取得をポーリングする
-    setTimeout(function() {
-        getMessages();
-    },5000);
+    // setTimeout(function() {
+    //     getMessages();
+    // },5000);
 
     //メッセージの画像添付処理
     $('#btn_attach_image').click(function(){
@@ -37,7 +37,7 @@ $(function() {
         .done(function(data) {
             //デバッグログ
             console.log('ajax success', data);
-            if (val.pivot.text !== null) {
+            if (data.text !== void 0) {
                 var html = `
                             <div class="d-flex flex-row-reverse align-items-center mt-3">
                                 <div class="balloon-right">
@@ -47,7 +47,7 @@ $(function() {
                 `;
             }
             //画像が存在する場合
-            if (val.pivot.file_path !== null){
+            if (data.file_path !== void 0){
                 var html = `
                             <div class="d-flex flex-row-reverse align-items-center mt-3">
                                 <div class="balloon-right w-50 text-center">
@@ -57,10 +57,6 @@ $(function() {
                 `;
             }
 
-            $('#message_data').append(html);
-
-            window.scroll(0,$(document).height());
-
         })
         .fail(function(data) {
             console.log('ajax fail');
@@ -69,6 +65,65 @@ $(function() {
         $('#text').val('');
         $('input[name=input_file]').val('');
     })
+
+    //pusherのイベント処理
+    window.Echo.channel("message-added-channel").listen("MessageAdded", e => {
+        const userId = $('meta[name="csrf-token"]').data('user-id');
+        console.log('connecting to pusher', e, userId);
+
+        if (e.message.user_id === userId) {
+            if (e.message.text !== void 0) {
+                var html = `
+                            <div class="d-flex flex-row-reverse align-items-center mt-3">
+                                <div class="balloon-right">
+                                    <h5 class="text-center">${e.message.text}</h5>
+                                </div>
+                            </div>
+                `;
+            }
+            if (e.message.file_path !== void 0) {
+                var html = `
+                            <div class="d-flex flex-row-reverse align-items-center mt-3">
+                                <div class="balloon-right w-50 text-center">
+                                    <img src="../${e.message.file_path}" alt="" class="w-100">
+                                </div>
+                            </div>
+                `;
+            }
+        } else {
+            if (e.message.text !== void 0) {
+                var html = `
+                            <div class="d-flex justify-content-start align-items-center mt-3">
+                                <a href="{{ route('users.show', $user_message->id) }}">
+                                    <img src="../${e.message.profile_image_path}" alt="" class="rounded-circle circle-sm mr-2">
+                                </a>
+                                <div class="balloon-left">
+                                    <h5 class="text-center">${e.message.text}</h5>
+                                </div>
+                            </div>
+                `;
+            }
+            if (e.message.file_path !== void 0) {
+                var html = `
+                            <div class="d-flex justify-content-start align-items-center mt-3">
+                                <a href="{{ route('users.show', $user_message->id) }}">
+                                    <img src="../${e.message.profile_image_path}" alt="" class="rounded-circle circle-sm mr-2">
+                                </a>
+                                <div class="balloon-left w-50 text-center">
+                                    <img src="../${e.message.file_path}" alt="" class="w-100">
+                                </div>
+                            </div>
+                `;
+            }
+        }
+
+        $('#message_data').append(html);
+
+        if (e.message.user_id === userId ) {
+            window.scroll(0,$(document).height());
+        }
+
+    });
 
 });
 

@@ -5,15 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Room;
 use App\Message;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\MessageFormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use App\Events\MessageAdded;
 
 class MessageController extends Controller
 {
-    public function send(MessageFormRequest $request)
+    public function send(MessageFormRequest $request, User $user)
     {
+        //対象のルームを取得
         $room = Room::where('name', $request->name)->firstOrFail();
 
         //初期化
@@ -38,7 +41,13 @@ class MessageController extends Controller
         $create_data['user_id'] = Auth::id();
         $create_data['room_id'] = $room->id;
         $create_data['text'] = $request->text;
-        $param = Message::create($create_data);
+        $param = Message::create($create_data)->toArray();
+
+        //パラメータにプロフィール画像を追加する
+        $param['profile_image_path'] = $user->getProfileImage(Auth::id());
+
+        //pusherのイベント処理
+        event(new MessageAdded($param));
 
         //メッセージのJsonを返す
         return response()->json($param);

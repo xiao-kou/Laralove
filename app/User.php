@@ -98,4 +98,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Room', 'messages', 'user_id', 'room_id');
     }
+
+    public function getProfileImage($user_id)
+    {
+        return $this->find($user_id)->profile_image_path;
+    }
 }
