@@ -34,4 +34,9 @@ class Room extends Model
                     ->get()
                     ->sortBy('pivot.created_at');
     }
+
+    public function isParticipant($user_id)
+    {
+        return $this->participants()->newPivotQuery()->where('user_id', $user_id)->exists();
+    }
 }

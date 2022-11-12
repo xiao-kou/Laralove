@@ -5,18 +5,27 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Room;
 use Illuminate\Support\Facades\Auth;
-use App\Policies\RoomPolicy;
-use App\UserRoom;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class RoomController extends Controller
 {
     public function show($name)
     {
-        //認可
         //Roomが存在ない場合は新規で作成をする
         $room = Room::firstOrCreate([
             'name' => $name
         ]);
+
+        //認可
+        $is_participant = $room->isParticipant(Auth::id());
+        //ログインしているユーザーの送信が許可されていない場合
+        if (!$is_participant) {
+            $res = response()->json([
+                'errors' => 'ダイレクトメッセージを送信する権限がありません。',
+            ],400);
+
+            throw new HttpResponseException($res);
+        }
 
         //中間テーブルにデータを格納
         $user_ids = explode('-', $name);

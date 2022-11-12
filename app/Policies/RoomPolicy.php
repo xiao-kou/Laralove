@@ -31,10 +31,7 @@ class RoomPolicy
      */
     public function view(User $user, Room $room)
     {
-        // $room->messages->first()->user_id;
-        return $user->id === $room->pivot
-                    ? Response::allow()
-                    : Response::deny('このダイレクトメッセージにアクセスする権限がありません。');
+        //
     }
 
     /**

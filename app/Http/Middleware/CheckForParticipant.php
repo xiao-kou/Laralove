@@ -22,8 +22,7 @@ class CheckForParticipant
         //Roomが存在する場合
         $room = Room::where('name', $request->name)->first();
         if ($room) {
-            $is_participant = $room->participants()->newPivotQuery()->where('user_id', Auth::id())->exists();
-            return $is_participant
+            return $room->isParticipant(Auth::id())
                         ? $next($request)
                         : redirect()->back()->with('このダイレクトメッセージにアクセスする権限がありません。');
         }

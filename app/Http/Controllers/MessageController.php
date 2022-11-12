@@ -19,6 +19,17 @@ class MessageController extends Controller
         //対象のルームを取得
         $room = Room::where('name', $request->name)->firstOrFail();
 
+        //認可
+        $is_participant = $room->isParticipant(Auth::id());
+        //ログインしているユーザーの送信が許可されていない場合
+        if (!$is_participant) {
+            $res = response()->json([
+                'errors' => 'ダイレクトメッセージを送信する権限がありません。',
+            ],400);
+
+            throw new HttpResponseException($res);
+        }
+
         //初期化
         $create_data = [];
 

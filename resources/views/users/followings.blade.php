@@ -12,12 +12,14 @@
             <a href="{{ route('users.show', $following->id) }}"><img src="{{ asset($following->profile_image_path) }}" alt="" class="rounded-circle circle-sm"></a>
             <div class="ml-4">
                 <div class="d-flex align-items-center">
+                    <h4>{{ $following->name }}</h4>
                     @php
                         $participant_ids = [auth()->id(), $following->id];
                         sort($participant_ids);
                     @endphp
-                    <h4>{{ $following->name }}</h4>
-                    <button class="btn btn-primary btn-sm ml-3 mb-2" onclick="location.href='{{ route('rooms.show', implode('-', $participant_ids) ) }} '">DMを送る</button>
+                    @if ($following->id !== auth()->id())
+                        <button class="btn btn-primary btn-sm ml-3 mb-2" onclick="location.href='{{ route('rooms.show', implode('-', $participant_ids) ) }} '">DMを送る</button>
+                    @endif
                 </div>
                 <span>{{ '@' . $following->screen_name }}</span>
             </div>

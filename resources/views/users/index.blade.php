@@ -17,7 +17,9 @@
                         $participant_ids = [auth()->id(), $user->id];
                         sort($participant_ids);
                     @endphp
-                    <button class="btn btn-primary btn-sm ml-3 mb-2" onclick="location.href='{{ route('rooms.show', implode('-', $participant_ids) ) }} '">DMを送る</button>
+                    @if ($user->id !== auth()->id())
+                        <button class="btn btn-primary btn-sm ml-3 mb-2" onclick="location.href='{{ route('rooms.show', implode('-', $participant_ids) ) }} '">DMを送る</button>
+                    @endif
                 </div>
                 <span>{{ '@' . $user->screen_name }}</span>
             </div>
