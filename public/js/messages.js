@@ -14,7 +14,24 @@ $(function() {
         $('input[name=input_file]').click();
         //画像選択後のプレビュー
         $('input[name=input_file]').on('change', function(evt) {
+            var file = evt.target.files[0];
+
+            var reader = new FileReader();
+
+            reader.readAsDataURL(file);
+
+            reader.onload = (function (theFile) {
+                $('#attach_image_area').find('img').attr('src', theFile.target.result)
+            });
+
+            $('#attach_image_area').removeClass('d-none');
         });
+    })
+
+    //画像添付プレビューのバツボタン押下処理
+    $('#btn_close').on('click', function() {
+        $('input[name=input_file]').val('');
+        $('#attach_image_area').addClass('d-none');
     })
 
     $('#btn_send_message').click(function(){
@@ -37,25 +54,26 @@ $(function() {
         .done(function(data) {
             //デバッグログ
             console.log('ajax success', data);
-            if (data.text !== void 0) {
-                var html = `
-                            <div class="d-flex flex-row-reverse align-items-center mt-3">
-                                <div class="balloon-right">
-                                    <h5 class="text-center">${data.text}</h5>
-                                </div>
-                            </div>
-                `;
-            }
             //画像が存在する場合
-            if (data.file_path !== void 0){
-                var html = `
-                            <div class="d-flex flex-row-reverse align-items-center mt-3">
-                                <div class="balloon-right w-50 text-center">
-                                    <img src="../${data.file_path}" alt="" class="w-100">
-                                </div>
-                            </div>
-                `;
-            }
+            // var html = '';
+            // if (data.file_path !== void 0){
+            //     html += `
+            //                 <div class="d-flex flex-row-reverse align-items-center mt-3">
+            //                     <div class="balloon-right w-50 text-center">
+            //                         <img src="../${data.file_path}" alt="" class="w-100">
+            //                     </div>
+            //                 </div>
+            //     `;
+            // }
+            // if (data.text !== null) {
+            //     html += `
+            //                 <div class="d-flex flex-row-reverse align-items-center mt-3">
+            //                     <div class="balloon-right">
+            //                         <h5 class="text-center">${data.text}</h5>
+            //                     </div>
+            //                 </div>
+            //     `;
+            // }
 
         })
         .fail(function(data) {
@@ -64,25 +82,18 @@ $(function() {
 
         $('#text').val('');
         $('input[name=input_file]').val('');
+        $('#attach_image_area').addClass('d-none');
     })
 
     //pusherのイベント処理
     window.Echo.channel("message-added-channel").listen("MessageAdded", e => {
         const userId = $('meta[name="csrf-token"]').data('user-id');
+        var html = ''
         console.log('connecting to pusher', e, userId);
 
         if (e.message.user_id === userId) {
-            if (e.message.text !== void 0) {
-                var html = `
-                            <div class="d-flex flex-row-reverse align-items-center mt-3">
-                                <div class="balloon-right">
-                                    <h5 class="text-center">${e.message.text}</h5>
-                                </div>
-                            </div>
-                `;
-            }
             if (e.message.file_path !== void 0) {
-                var html = `
+                html += `
                             <div class="d-flex flex-row-reverse align-items-center mt-3">
                                 <div class="balloon-right w-50 text-center">
                                     <img src="../${e.message.file_path}" alt="" class="w-100">
@@ -90,27 +101,36 @@ $(function() {
                             </div>
                 `;
             }
-        } else {
-            if (e.message.text !== void 0) {
-                var html = `
-                            <div class="d-flex justify-content-start align-items-center mt-3">
-                                <a href="{{ route('users.show', $user_message->id) }}">
-                                    <img src="../${e.message.profile_image_path}" alt="" class="rounded-circle circle-sm mr-2">
-                                </a>
-                                <div class="balloon-left">
+            if (e.message.text !== null) {
+                html += `
+                            <div class="d-flex flex-row-reverse align-items-center mt-3">
+                                <div class="balloon-right">
                                     <h5 class="text-center">${e.message.text}</h5>
                                 </div>
                             </div>
                 `;
             }
+        } else {
             if (e.message.file_path !== void 0) {
-                var html = `
+                html += `
                             <div class="d-flex justify-content-start align-items-center mt-3">
                                 <a href="{{ route('users.show', $user_message->id) }}">
                                     <img src="../${e.message.profile_image_path}" alt="" class="rounded-circle circle-sm mr-2">
                                 </a>
                                 <div class="balloon-left w-50 text-center">
                                     <img src="../${e.message.file_path}" alt="" class="w-100">
+                                </div>
+                            </div>
+                `;
+            }
+            if (e.message.text !== null) {
+                html += `
+                            <div class="d-flex justify-content-start align-items-center mt-3">
+                                <a href="{{ route('users.show', $user_message->id) }}">
+                                    <img src="../${e.message.profile_image_path}" alt="" class="rounded-circle circle-sm mr-2">
+                                </a>
+                                <div class="balloon-left">
+                                    <h5 class="text-center">${e.message.text}</h5>
                                 </div>
                             </div>
                 `;
@@ -158,6 +178,16 @@ function getMessages() {
         $.each(data, function(index, val){
             //自分の投稿の場合
             if (val.pivot.user_id == userId) {
+                //画像が存在する場合
+                if (val.pivot.file_path !== void 0){
+                    html += `
+                                <div class="d-flex flex-row-reverse align-items-center mt-3">
+                                    <div class="balloon-right w-50 text-center">
+                                        <img src="../${val.pivot.file_path}" alt="" class="w-100">
+                                    </div>
+                                </div>
+                    `;
+                }
                 //テキストメッセージが存在する場合
                 if (val.pivot.text !== null) {
                     html += `
@@ -168,18 +198,21 @@ function getMessages() {
                                 </div>
                     `;
                 }
+            } else {
+                //相手の投稿の場合
                 //画像が存在する場合
-                if (val.pivot.file_path !== null){
+                if (val.pivot.file_path !== void 0){
                     html += `
-                                <div class="d-flex flex-row-reverse align-items-center mt-3">
-                                    <div class="balloon-right w-50 text-center">
+                                <div class="d-flex justify-content-start align-items-center mt-3">
+                                    <a href="{{ route('users.show', $user_message->id) }}">
+                                        <img src="../${val.profile_image_path}" alt="" class="rounded-circle circle-sm mr-2">
+                                    </a>
+                                    <div class="balloon-left w-50 text-center">
                                         <img src="../${val.pivot.file_path}" alt="" class="w-100">
                                     </div>
                                 </div>
                     `;
                 }
-            } else {
-                //相手の投稿の場合
                 //テキストメッセージが存在する場合
                 if (val.pivot.text !== null) {
                     html += `
@@ -189,19 +222,6 @@ function getMessages() {
                                     </a>
                                     <div class="balloon-left">
                                         <h5 class="text-center">${val.pivot.text}</h5>
-                                    </div>
-                                </div>
-                    `;
-                }
-                //画像が存在する場合
-                if (val.pivot.file_path !== null){
-                    html += `
-                                <div class="d-flex justify-content-start align-items-center mt-3">
-                                    <a href="{{ route('users.show', $user_message->id) }}">
-                                        <img src="../${val.profile_image_path}" alt="" class="rounded-circle circle-sm mr-2">
-                                    </a>
-                                    <div class="balloon-left w-50 text-center">
-                                        <img src="../${val.pivot.file_path}" alt="" class="w-100">
                                     </div>
                                 </div>
                     `;

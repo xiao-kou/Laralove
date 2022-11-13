@@ -24,7 +24,7 @@ Route::put('/posts/{post}', 'PostController@update')->name('posts.update')->midd
 Route::delete('/posts/{post}', 'PostController@destroy')->name('posts.destroy')->middleware('auth');
 
 // User Route
-Route::get('/users', 'UserController@index')->name('users.index');
+Route::get('/users', 'UserController@index')->name('users.index')->middleware('auth');
 Route::get('/users/{id}', 'UserController@show')->name('users.show');
 Route::get('/users/{user}/edit', 'UserController@edit')->name('users.edit')->middleware('auth');
 Route::put('/users/{user}', 'UserController@update')->name('users.update')->middleware('auth');

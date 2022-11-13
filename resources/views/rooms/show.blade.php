@@ -52,19 +52,29 @@
         @endforeach
     </div>
     <form id="form_message" class="">
-        <div class="form-fixed-bottom row d-flex align-items-center">
-            <div class="ml-3 pr-0">
-                <button type="button" class="px-0 w-100 d-block" id="btn_attach_image">
-                    <img src="https://placehold.jp/500x500.png" alt="" class="w-100" style="height: 30px;">
-                </button>
-                <input type="file" class="d-none" name="input_file" accept="image/png, image/jpeg, image/jpg, image/gif">
+        <div class="form-fixed-bottom">
+            <div class="d-none row" id="attach_image_area">
+                <div class="ml-md-3 col-md-9 bg-primary text-center">
+                    <button type="button" class="close" aria-label="Close" id="btn_close">
+                        <span>&times;</span>
+                    </button>
+                    <img src="{{ asset('images/attach_btn.png') }}" alt="" class="w-25">
+                </div>
             </div>
-            <div class="col-8">
-                <textarea required autofocus id="text" rows="3" class="form-control @error('text') is-invalid @enderror" name="text"></textarea>
-            </div>
-            <input type="text" class="d-none" name="name" value="{{ basename(request()->path()) }}">
-            <div class="col-2 px-0">
-                <button type="button" class="btn btn-primary" id="btn_send_message">送信</button>
+            <div class="row d-flex align-items-center">
+                <div class="ml-3 pr-0">
+                    <button type="button" class="px-0 w-100" id="btn_attach_image">
+                        <img src="{{ asset('images/attach_btn.png') }}" alt="" style="height: 30px;">
+                    </button>
+                    <input type="file" class="d-none" name="input_file" accept="image/png, image/jpeg, image/jpg, image/gif">
+                </div>
+                <div class="col-8">
+                    <textarea required autofocus id="text" rows="3" class="form-control @error('text') is-invalid @enderror" name="text"></textarea>
+                </div>
+                <input type="text" class="d-none" name="name" value="{{ basename(request()->path()) }}">
+                <div class="col-2 px-0">
+                    <button type="button" class="btn btn-primary" id="btn_send_message">送信</button>
+                </div>
             </div>
         </div>
     </form>
