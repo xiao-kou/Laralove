@@ -11,14 +11,21 @@
     <!-- CSS -->
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
 
+    <!-- Select2 CSS -->
+    <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
+
     <title>@yield('title')</title>
   </head>
   <body>
+    <!-- JavaScript -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
     @if (Request::route()->getName() === 'rooms.show')
       <script src="{{ asset('js/messages.js') }}"></script>
     @endif
+
+    <!-- Select2 JS -->
+    <script src="{{ asset('js/select2.min.js') }}"></script>
 
     <!-- フラッシュメッセージ -->
     @if (session('flash_message'))
