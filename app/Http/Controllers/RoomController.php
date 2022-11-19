@@ -18,14 +18,6 @@ class RoomController extends Controller
 
         //認可
         $is_participant = $room->isParticipant(Auth::id());
-        //ログインしているユーザーの送信が許可されていない場合
-        if (!$is_participant) {
-            $res = response()->json([
-                'errors' => 'ダイレクトメッセージを送信する権限がありません。',
-            ],400);
-
-            throw new HttpResponseException($res);
-        }
 
         //中間テーブルにデータを格納
         $user_ids = explode('-', $name);
