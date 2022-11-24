@@ -9,6 +9,11 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class RoomController extends Controller
 {
+    public function index()
+    {
+        return view('rooms.index');
+    }
+
     public function show($name)
     {
         //Roomが存在ない場合は新規で作成をする

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RoomController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -44,6 +45,7 @@ Route::delete('/unlike/{id}', 'LikeController@destroy')->name('like.destroy')->m
 // Room Route
 Route::get('/rooms/{name}', 'RoomController@show')->name('rooms.show')
             ->where('name', '[0-9]+-[0-9]+')->middleware(['auth', 'participant']);
+Route::get('/rooms', 'RoomController@index')->name('rooms.index')->middleware('auth');
 
 // Message Route
 Route::post('/messages/send', 'MessageController@send')->name('messages.send')->middleware('auth');
