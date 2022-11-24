@@ -1,6 +1,6 @@
 @extends('app')
 
-@section('title', 'Laralove | Message Show')
+@section('title', 'Laralove | Room Show')
 
 @section('content')
 
