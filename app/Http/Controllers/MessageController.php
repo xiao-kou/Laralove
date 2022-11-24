@@ -57,6 +57,9 @@ class MessageController extends Controller
         //パラメータにプロフィール画像を追加する
         $param['profile_image_path'] = $user->getProfileImage(Auth::id());
 
+        //パラメータに参加者のIDを追加する
+        $param['participant_ids'] = $room->participants()->get(['users.id'])->pluck('id');
+
         //pusherのイベント処理
         event(new MessageAdded($param));
 

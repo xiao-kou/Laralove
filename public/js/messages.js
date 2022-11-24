@@ -88,9 +88,16 @@ $(function() {
     //pusherのイベント処理
     window.Echo.channel("message-added-channel").listen("MessageAdded", e => {
         const userId = $('meta[name="csrf-token"]').data('user-id');
-        var html = ''
+        var html = '';
+
         console.log('connecting to pusher', e, userId);
 
+        //自分以外へのダイレクトメッセージは表示しないで処理終了
+        if (!e.message.participant_ids.includes(userId)) {
+            exit;
+        }
+
+        //メッセージを作成
         if (e.message.user_id === userId) {
             if (e.message.file_path !== void 0) {
                 html += `
