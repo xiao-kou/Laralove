@@ -12,6 +12,7 @@ use App\Http\Requests\MessageFormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use App\Events\MessageAdded;
 use App\MessageRead;
+use App\RoomRead;
 
 class MessageController extends Controller
 {
@@ -61,16 +62,35 @@ class MessageController extends Controller
         //パラメータに参加者のIDを追加する
         $param['participant_ids'] = $room->participants()->get(['users.id'])->pluck('id');
 
-        //参加者のメッセージの既読管理テーブルに未読として保存
+        //参加者のルーム/メッセージの既読管理テーブルに未読として保存
         foreach($param['participant_ids'] as $participant_id) {
             //自分が送信したメッセージは既読管理テーブルに保存しない
             if ($participant_id === Auth::id()) {
                 continue;
             }
 
+            //ルームの既読管理を取得
+            $room_read = RoomRead::where('user_id', $participant_id)
+                            ->where('room_id', $room->id)
+                            ->first();
+
+            //ルームの既読管理が存在する場合は更新または処理終了/存在しない場合は新規作成
+            if ($room_read) {
+                //既読になっている場合は、未読に変更
+                if($room_read->read) {
+                    $room_read->update(['read' => false]);
+                }
+            } else {
+                RoomRead::create([
+                    'user_id' => $participant_id,
+                    'room_id' => $room->id,
+                    'read' => false,
+                ]);
+            }
+
+            //メッセージの既読管理を新規作成
             MessageRead::create([
                 'user_id' => $participant_id,
-                'room_id' => $room->id,
                 'message_id' => $param['id'],
                 'read' => false,
             ]);

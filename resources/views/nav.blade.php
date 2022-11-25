@@ -13,7 +13,7 @@
           メッセージ
         </a>
         <div class="unread @if(is_null($notifications)) d-none @endif" @if(!is_null($notifications)) data-unread-room-ids="{{ $notifications->room_ids }}" @endif>
-          <span class="count text-white">@if(!is_null($notifications)) {{ count(explode(',', $notifications->room_ids)) }} @endif</span>
+          <span class="count text-white">@if(!is_null($notifications)) {{ count(explode(',', $notifications->room_ids)) }} @else 0 @endif</span>
         </div>
       </li>
     @endauth

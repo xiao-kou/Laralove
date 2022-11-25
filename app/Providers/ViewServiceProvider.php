@@ -33,13 +33,13 @@ class ViewServiceProvider extends ServiceProvider
             }
 
             //新着メッセージ通知で使用する、ログインユーザーが参加しているルームのIDをグローバル変数として取得
-            $notifications = DB::table('message_reads')
+            $notifications = DB::table('room_reads')
                             ->selectRaw('GROUP_CONCAT(DISTINCT room_id) as room_ids')
                             ->groupBy('user_id')
                             ->where('user_id', Auth::id())
                             ->where('read', false)
                             ->first();
-// dd($notifications->room_ids);
+
             $view->with('notifications', $notifications);
         });
     }

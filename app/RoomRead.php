@@ -4,8 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-
-class MessageRead extends Model
+class RoomRead extends Model
 {
     /**
      * The attributes that are mass assignable
@@ -14,7 +13,7 @@ class MessageRead extends Model
      */
     protected $fillable = [
         'user_id',
-        'message_id',
+        'room_id',
         'read',
     ];
 }

@@ -196,6 +196,11 @@ $(document).ready(function(){
         var roomId = e.message.room_id;
         var participantIds = e.message.participant_ids;
 
+        //undefinedを空文字に変換/または文字型に変換
+        unreadRoomIds = unreadRoomIds === void 0
+                            ? ''
+                            : String(unreadRoomIds);
+
         //カレントユーザーのIDを取得
         $.ajax({
             url: '/get-current-userid',
