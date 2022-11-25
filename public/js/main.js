@@ -195,7 +195,6 @@ $(document).ready(function(){
         var senderId = e.message.user_id;
         var roomId = e.message.room_id;
         var participantIds = e.message.participant_ids;
-        var userId;
 
         //カレントユーザーのIDを取得
         $.ajax({
@@ -212,7 +211,7 @@ $(document).ready(function(){
             }
 
             //自分宛て以外へのダイレクトメッセージは処理しないで終了
-            if (participantIds.includes(currentUserId)) {
+            if (!participantIds.includes(currentUserId)) {
                 return false;
             }
 
@@ -227,7 +226,6 @@ $(document).ready(function(){
 
             //未読のルームIdsを更新
             $('.unread').data('unread-room-ids', `${unreadRoomIds},${roomId}`);
-            alert($('.unread').data('unread-room-ids'));
 
             //メッセージの通知を表示
             $('.unread').removeClass('d-none');
