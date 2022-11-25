@@ -142,4 +142,9 @@ class UserController extends Controller
         $followings = $user->followings()->get();
         return view('users.followings', compact('followings'));
     }
+
+    public function getCurrentUserid()
+    {
+        return response()->json(Auth::id());
+    }
 }

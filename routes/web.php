@@ -51,4 +51,7 @@ Route::get('/rooms', 'RoomController@index')->name('rooms.index')->middleware('a
 Route::post('/messages/send', 'MessageController@send')->name('messages.send')->middleware('auth');
 Route::post('/messages/get-latest', 'MessageController@getLatest')->name('messages.get_Latest')->middleware('auth');
 
+// Ajax User Route
+Route::get('/get-current-userid', 'UserController@getCurrentUserid')->name('users.get_current_userid')->middleware('auth');
+
 Auth::routes();

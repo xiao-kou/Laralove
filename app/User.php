@@ -96,7 +96,7 @@ class User extends Authenticatable
 
     public function rooms()
     {
-        return $this->belongsToMany('App\Room', 'messages', 'user_id', 'room_id');
+        return $this->belongsToMany('App\Room', 'user_room', 'user_id', 'room_id');
     }
 
     public function getProfileImage($user_id)

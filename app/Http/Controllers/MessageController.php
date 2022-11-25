@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Requests\MessageFormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use App\Events\MessageAdded;
+use App\MessageRead;
 
 class MessageController extends Controller
 {
@@ -59,6 +60,21 @@ class MessageController extends Controller
 
         //パラメータに参加者のIDを追加する
         $param['participant_ids'] = $room->participants()->get(['users.id'])->pluck('id');
+
+        //参加者のメッセージの既読管理テーブルに未読として保存
+        foreach($param['participant_ids'] as $participant_id) {
+            //自分が送信したメッセージは既読管理テーブルに保存しない
+            if ($participant_id === Auth::id()) {
+                continue;
+            }
+
+            MessageRead::create([
+                'user_id' => $participant_id,
+                'room_id' => $room->id,
+                'message_id' => $param['id'],
+                'read' => false,
+            ]);
+        }
 
         //pusherのイベント処理
         event(new MessageAdded($param));
