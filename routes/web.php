@@ -31,6 +31,7 @@ Route::get('/users/{user}/edit', 'UserController@edit')->name('users.edit')->mid
 Route::put('/users/{user}', 'UserController@update')->name('users.update')->middleware('auth');
 Route::get('/users/{user}/profile-settings', 'UserController@showProfileSettingsForm')->name('users.profile_settings')->middleware('auth');
 Route::put('/users/{user}/profile-update', 'UserController@updateProfile')->name('users.profile_update')->middleware('auth');
+Route::get('/get-current-userid', 'UserController@getCurrentUserid')->name('users.get_current_userid')->middleware('auth');
 
 // Follow Route
 Route::post('/users/{user}/follow', 'UserController@follow')->name('users.follow')->middleware('auth');
@@ -51,7 +52,8 @@ Route::get('/rooms', 'RoomController@index')->name('rooms.index')->middleware('a
 Route::post('/messages/send', 'MessageController@send')->name('messages.send')->middleware('auth');
 Route::post('/messages/get-latest', 'MessageController@getLatest')->name('messages.get_Latest')->middleware('auth');
 
-// Ajax User Route
-Route::get('/get-current-userid', 'UserController@getCurrentUserid')->name('users.get_current_userid')->middleware('auth');
+// Notification Route
+Route::get('notifications/get-unread-messages', 'NotificationController@getUnreadMessages')
+            ->name('notifications.get_unread_messages')->middleware('auth');
 
 Auth::routes();

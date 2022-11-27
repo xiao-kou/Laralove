@@ -1,4 +1,8 @@
 $(document).ready(function(){
+    //メッセージの未読通知を取得
+    getUnreadNotificationMessages()
+
+    //画像投稿のプレビュー
     $('.custom-file-input').on('change', handleFileSelect);
     function handleFileSelect(evt) {
         var files = evt.target.files;
@@ -190,16 +194,9 @@ $(document).ready(function(){
     })
 
     //新規メッセージの通知イベント
-    window.Echo.channel("message-added-channel").listen("MessageAdded", e => {
-        var unreadRoomIds = $('.unread').data('unread-room-ids');
-        var senderId = e.message.user_id;
-        var roomId = e.message.room_id;
-        var participantIds = e.message.participant_ids;
-
-        //undefinedを空文字に変換/または文字型に変換
-        unreadRoomIds = unreadRoomIds === void 0
-                            ? ''
-                            : String(unreadRoomIds);
+    window.Echo.channel("notification-added-channel").listen("NotificationAdded", e => {
+        console.log(e);
+        var receiverId = e.notification.receiver_id;
 
         //カレントユーザーのIDを取得
         $.ajax({
@@ -210,27 +207,14 @@ $(document).ready(function(){
         //成功した場合
         .done(function(currentUserId) {
 
-            //自分が送信したダイレクトメッセージは処理しないで終了
-            if (senderId === currentUserId) {
-                return false;
-            }
-
-            //自分宛て以外へのダイレクトメッセージは処理しないで終了
-            if (!participantIds.includes(currentUserId)) {
-                return false;
-            }
-
-            //既に未読と判定されているルームIDは処理しないで終了
-            if (unreadRoomIds.includes(roomId)) {
+            //自分以外が受信したダイレクトメッセージは処理しないで終了
+            if (receiverId !== currentUserId) {
                 return false;
             }
 
             //未読の通知を追加
-            unreadCount = parseInt($('.unread .count').text(), '10') + 1;
+            var unreadCount = parseInt($('.unread .count').text(), '10') + 1;
             $('.unread .count').text(unreadCount);
-
-            //未読のルームIdsを更新
-            $('.unread').data('unread-room-ids', `${unreadRoomIds},${roomId}`);
 
             //メッセージの通知を表示
             $('.unread').removeClass('d-none');
@@ -239,7 +223,30 @@ $(document).ready(function(){
         .fail(function(data) {
             console.log('ajax fail');
         })
-
     })
 
 });
+
+//メッセージの未読通知を取得する
+function getUnreadNotificationMessages() {
+    //ajax処理
+    $.ajax({
+        url: '/notifications/get-unread-messages',
+        method: 'GET',
+        dataType: 'json',
+    })
+    //成功した場合
+    .done(function(unreadNotificationMessages) {
+        console.log(unreadNotificationMessages.length);
+
+        var unreadCount = unreadNotificationMessages.length;
+
+        //メッセージの未読の通知件数を表示
+        $('.unread .count').text(unreadCount);
+
+        //メッセージの通知を表示
+        if (unreadCount) {
+            $('.unread').removeClass('d-none');
+        }
+    })
+}

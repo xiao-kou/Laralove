@@ -12,8 +12,8 @@
         <a class="nav-link message" href="{{ route('rooms.index') }}"><i class="mr-1"></i>
           メッセージ
         </a>
-        <div class="unread @if(is_null($notifications)) d-none @endif" @if(!is_null($notifications)) data-unread-room-ids="{{ $notifications->room_ids }}" @endif>
-          <span class="count text-white">@if(!is_null($notifications)) {{ count(explode(',', $notifications->room_ids)) }} @else 0 @endif</span>
+        <div class="unread d-none">
+          <span class="count text-white"></span>
         </div>
       </li>
     @endauth

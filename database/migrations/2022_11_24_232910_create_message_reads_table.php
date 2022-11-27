@@ -17,7 +17,7 @@ class CreateMessageReadsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('message_id');
-            $table->boolean('read')->default(false);
+            $table->boolean('is_read')->default(false);
             $table->timestamps();
 
             //外部キー制約
