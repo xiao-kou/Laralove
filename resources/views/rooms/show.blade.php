@@ -12,39 +12,49 @@
     <div id="message_data" class="mb-5 pb-5">
         @foreach($user_messages as $user_message)
             <!-- 自分が送信したメッセージの場合 -->
-            @if ($user_message->id === auth()->id())
-                @if ($user_message->pivot->text)
+            @if ($user_message->user_id === auth()->id())
+                @if ($user_message->message_text)
                     <div class="d-flex flex-row-reverse align-items-center mt-3">
                         <div class="balloon-right">
-                            <h5 class="text-center">{{ $user_message->pivot->text }}</h5>
+                            <h5 class="text-center">{{ $user_message->message_text }}</h5>
                         </div>
                     </div>
                 @endif
-                @if ($user_message->pivot->file_path)
+                @if ($user_message->file_path)
                     <div class="d-flex flex-row-reverse align-items-center mt-3">
                         <div class="balloon-right w-50 text-center">
-                            <img src="{{ asset($user_message->pivot->file_path) }}" alt="" class="w-100">
+                            <img src="{{ asset($user_message->file_path) }}" alt="" class="w-100">
                         </div>
                     </div>
                 @endif
             @else
-                @if ($user_message->pivot->text)
+                @if ($user_message->message_text)
                     <div class="d-flex justify-content-start align-items-center mt-3">
-                        <a href="{{ route('users.show', $user_message->id) }}">
-                            <img src="{{ asset($user_message->profile_image_path) }}" alt="" class="rounded-circle circle-sm mr-2">
+                        <a href="{{ route('users.show', $user_message->user_id) }}" class="mr-2 text-decoration-none">
+                            <img src="{{ asset($user_message->profile_image_path) }}" alt="" class="rounded-circle circle-sm">
+                            @if (!is_null($unread_id))
+                                @if ($unread_id->message_id <= $user_message->message_id)
+                                    <div class="text-center text-danger">未読</div>
+                                @endif
+                            @endif
                         </a>
                         <div class="balloon-left">
-                            <h5 class="text-center">{{ $user_message->pivot->text }}</h5>
+                            <h5 class="text-center">{{ $user_message->message_text }}</h5>
                         </div>
                     </div>
                 @endif
-                @if ($user_message->pivot->file_path)
+                @if ($user_message->file_path)
                     <div class="d-flex justify-content-start align-items-center mt-3">
-                        <a href="{{ route('users.show', $user_message->id) }}">
-                            <img src="{{ asset($user_message->profile_image_path) }}" alt="" class="rounded-circle circle-sm mr-2">
+                        <a href="{{ route('users.show', $user_message->user_id) }}" class="mr-2 text-decoration-none">
+                            <img src="{{ asset($user_message->profile_image_path) }}" alt="" class="rounded-circle circle-sm">
+                            @if (!is_null($unread_id))
+                                @if ($unread_id->message_id <= $user_message->message_id)
+                                    <div class="text-center text-danger">未読</div>
+                                @endif
+                            @endif
                         </a>
                         <div class="balloon-left w-50 text-center">
-                            <img src="{{ asset($user_message->pivot->file_path) }}" alt="" class="w-100">
+                            <img src="{{ asset($user_message->file_path) }}" alt="" class="w-100">
                         </div>
                     </div>
                 @endif

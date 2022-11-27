@@ -95,12 +95,11 @@ class MessageController extends Controller
                 event(new NotificationAdded($notification));
             }
 
-            //メッセージの既読管理を新規作成
-            MessageRead::create([
-                'user_id' => $participant_id,
-                'message_id' => $param['id'],
-                'is_read' => false,
-            ]);
+            //メッセージの既読管理を新規作成/更新
+            MessageRead::firstOrCreate(
+                ['user_id' => $participant_id, 'room_id' => $room->id, 'is_read' => false],
+                ['message_id' => $param['id']]
+            );
         }
 
         //pusherのイベント処理

@@ -121,8 +121,8 @@ $(function() {
             if (e.message.file_path !== void 0) {
                 html += `
                             <div class="d-flex justify-content-start align-items-center mt-3">
-                                <a href="{{ route('users.show', $user_message->id) }}">
-                                    <img src="../${e.message.profile_image_path}" alt="" class="rounded-circle circle-sm mr-2">
+                                <a href="{{ route('users.show', $user_message->id) }}" class="mr-2 text-decoration-none">
+                                    <img src="../${e.message.profile_image_path}" alt="" class="rounded-circle circle-sm">
                                 </a>
                                 <div class="balloon-left w-50 text-center">
                                     <img src="../${e.message.file_path}" alt="" class="w-100">
@@ -133,8 +133,8 @@ $(function() {
             if (e.message.text !== null) {
                 html += `
                             <div class="d-flex justify-content-start align-items-center mt-3">
-                                <a href="{{ route('users.show', $user_message->id) }}">
-                                    <img src="../${e.message.profile_image_path}" alt="" class="rounded-circle circle-sm mr-2">
+                                <a href="{{ route('users.show', $user_message->id) }}" class="mr-2 text-decoration-none">
+                                    <img src="../${e.message.profile_image_path}" alt="" class="rounded-circle circle-sm">
                                 </a>
                                 <div class="balloon-left">
                                     <h5 class="text-center">${e.message.text}</h5>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Message;
+use App\MessageRead;
 use App\Notification;
 use Illuminate\Http\Request;
 use App\Room;
@@ -52,20 +53,31 @@ class RoomController extends Controller
             'name' => $name
         ]);
 
-        //認可
-        $is_participant = $room->isParticipant(Auth::id());
-
         //中間テーブルにデータを格納
         $user_ids = explode('-', $name);
         $room->participants()->syncWithoutDetaching($user_ids);
 
         //ユーザーとメッセージを取得
         $user_messages = $room->users()
+                                ->select(DB::raw('users.id as user_id,
+                                        users.profile_image_path as profile_image_path,
+                                        messages.id as message_id,
+                                        messages.text as message_text,
+                                        messages.file_path as file_path
+                                '))
                                 ->orderBy('messages.created_at', 'DESC')
                                 ->take(50)
                                 ->get()
                                 ->sortBy('pivot.created_at');
 
-        return view('rooms.show', compact('user_messages'));
+        //未読のメッセージIDを取得
+        $unread_id = MessageRead::where('user_id', Auth::id())
+                                ->where('is_read', false)
+                                ->first();
+
+        //メッセージを既読に変更
+        MessageRead::where('user_id', Auth::id())->update(['is_read' => true]);
+
+        return view('rooms.show', compact('user_messages', 'unread_id'));
     }
 }

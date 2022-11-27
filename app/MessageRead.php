@@ -15,6 +15,7 @@ class MessageRead extends Model
     protected $fillable = [
         'user_id',
         'message_id',
+        'room_id',
         'is_read',
     ];
 }
