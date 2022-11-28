@@ -32,14 +32,17 @@
                     <div class="d-flex justify-content-start align-items-center mt-3">
                         <a href="{{ route('users.show', $user_message->user_id) }}" class="mr-2 text-decoration-none">
                             <img src="{{ asset($user_message->profile_image_path) }}" alt="" class="rounded-circle circle-sm">
-                            @if (!is_null($unread_id))
-                                @if ($unread_id->message_id <= $user_message->message_id)
-                                    <div class="text-center text-danger">未読</div>
-                                @endif
-                            @endif
+                            <div class="text-center">{{ $user_message->user_name }}</div>
                         </a>
                         <div class="balloon-left">
                             <h5 class="text-center">{{ $user_message->message_text }}</h5>
+                            @if (!is_null($unread_id))
+                                @if ($unread_id->message_id <= $user_message->message_id)
+                                    <small>
+                                        <h6 class="text-right text-danger mt-2 mb-0 small">未読</h6>
+                                    </small>
+                                @endif
+                            @endif
                         </div>
                     </div>
                 @endif
@@ -47,14 +50,14 @@
                     <div class="d-flex justify-content-start align-items-center mt-3">
                         <a href="{{ route('users.show', $user_message->user_id) }}" class="mr-2 text-decoration-none">
                             <img src="{{ asset($user_message->profile_image_path) }}" alt="" class="rounded-circle circle-sm">
-                            @if (!is_null($unread_id))
-                                @if ($unread_id->message_id <= $user_message->message_id)
-                                    <div class="text-center text-danger">未読</div>
-                                @endif
-                            @endif
                         </a>
                         <div class="balloon-left w-50 text-center">
                             <img src="{{ asset($user_message->file_path) }}" alt="" class="w-100">
+                            @if (!is_null($unread_id))
+                                @if ($unread_id->message_id <= $user_message->message_id)
+                                    <div class="text-right text-danger mt-2 mb-0">未読</div>
+                                @endif
+                            @endif
                         </div>
                     </div>
                 @endif

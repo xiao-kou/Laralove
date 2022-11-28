@@ -16,18 +16,19 @@ class RoomController extends Controller
 {
     public function index()
     {
-        $rooms = DB::table('user_room')
-                        ->select(DB::raw('users.id as sender_id,
-                                users.profile_image_path as sender_profile_image_path,
-                                users.name as sender_name,
-                                users.screen_name as sender_screen_name,
+        $rooms = DB::table('users')
+                        ->select(DB::raw('users.id as friend_id,
+                                users.profile_image_path as friend_profile_image_path,
+                                users.name as friend_name,
+                                users.screen_name as friend_screen_name,
                                 messages.text as message_text,
+                                messages.user_id as sender_id,
                                 messages.file_path as message_file_path,
                                 rooms.name as name,
                                 message_reads.is_read as message_read'))
+                        ->leftJoin('user_room', 'users.id', '=', 'user_room.user_id')
                         ->leftJoin('rooms', 'user_room.room_id', '=', 'rooms.id')
-                        ->leftJoin('messages', 'user_room.room_id', '=', 'messages.room_id')
-                        ->leftJoin('users', 'messages.user_id', '=', 'users.id')
+                        ->leftJoin('messages', 'rooms.id', '=', 'messages.room_id')
                         ->leftJoin('message_reads', 'messages.id', '=', 'message_reads.message_id')
                         ->whereIn('messages.id', function($q) {
                             //サブクエリでONLY_FULL_GROUP_BYを対処
@@ -35,10 +36,14 @@ class RoomController extends Controller
                                     ->selectRaw('MAX(id) as max_id')
                                     ->groupBy('room_id');
                         })
-                        ->where('user_room.user_id', Auth::id())
+                        ->whereIn('rooms.id', function($q) {
+                            return $q->from('user_room')
+                                    ->select('user_room.room_id')
+                                    ->where('user_id', Auth::id());
+                        })
+                        ->where('users.id', '<>', Auth::id())
                         ->orderBy('messages.created_at', 'DESC')
                         ->get();
-                        // dd($rooms->toArray());
 
         //notificationsを既読に変更
         Notification::where('receiver_id', Auth::id())->update(['is_read' => true]);
@@ -60,6 +65,7 @@ class RoomController extends Controller
         //ユーザーとメッセージを取得
         $user_messages = $room->users()
                                 ->select(DB::raw('users.id as user_id,
+                                        users.name as user_name,
                                         users.profile_image_path as profile_image_path,
                                         messages.id as message_id,
                                         messages.text as message_text,
