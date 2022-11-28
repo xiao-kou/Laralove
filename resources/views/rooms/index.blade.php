@@ -24,6 +24,13 @@
                         @endif
                     </div>
                     <div>{{$room->message_text}}</div>
+                    @if ($room->message_file_path)
+                        @if ($room->sender_id === auth()->id())
+                            <div>画像を送信しました</div>
+                        @else
+                            <div>画像が送信されました</div>
+                        @endif
+                    @endif
                 </div>
             </a>
         </div>
