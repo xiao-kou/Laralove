@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Consts\NotificationConst;
 use Illuminate\Http\Request;
 use App\Room;
 use App\Message;
@@ -11,16 +12,22 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Requests\MessageFormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use App\Events\MessageAdded;
+use App\Events\NotificationAdded;
+use App\MessageRead;
+use App\Notification;
 
 class MessageController extends Controller
 {
-    public function send(MessageFormRequest $request, User $user)
+    public function send(MessageFormRequest $request)
     {
         //対象のルームを取得
         $room = Room::where('name', $request->name)->firstOrFail();
 
+        //ログインユーザーを取得
+        $user = User::find(Auth::id());
+
         //認可
-        $is_participant = $room->isParticipant(Auth::id());
+        $is_participant = $room->isParticipant($user->id);
         //ログインしているユーザーの送信が許可されていない場合
         if (!$is_participant) {
             $res = response()->json([
@@ -49,13 +56,53 @@ class MessageController extends Controller
         }
 
         //メッセージ作成処理
-        $create_data['user_id'] = Auth::id();
+        $create_data['user_id'] = $user->id;
         $create_data['room_id'] = $room->id;
         $create_data['text'] = $request->text;
         $param = Message::create($create_data)->toArray();
 
         //パラメータにプロフィール画像を追加する
-        $param['profile_image_path'] = $user->getProfileImage(Auth::id());
+        $param['profile_image_path'] = $user->profile_image_path;
+
+        //パラメータに参加者のIDを追加する
+        $param['participant_ids'] = $room->participants()->get(['users.id'])->pluck('id');
+
+        //参加者のルーム/メッセージの既読管理テーブルに未読として保存
+        foreach($param['participant_ids'] as $participant_id) {
+            //自分が送信したメッセージは既読管理テーブルに保存しない
+            if ($participant_id === $user->id) {
+                continue;
+            }
+
+            //同じルームに未読の通知が存在するかチェック
+            $exists_notification = Notification::where('receiver_id', $participant_id)
+                                        ->where('sender_id', $user->id)
+                                        ->where('event_type', NotificationConst::MESSAGE_SEND_ADDED)
+                                        ->where('is_read', false)
+                                        ->exists();
+
+            //存在する場合は処理終了/存在しない場合は新規作成
+            if (!$exists_notification) {
+                $notification = Notification::create([
+                    'receiver_id' => $participant_id,
+                    'sender_id' => $user->id,
+                    'event_type' => NotificationConst::MESSAGE_SEND_ADDED,
+                    'message' => $user->name . NotificationConst::MESSAGE_FROM,
+                    'is_read' => false
+                ]);
+
+                // Pusherのイベント処理
+                event(new NotificationAdded($notification));
+            }
+
+            //メッセージの既読管理を新規作成/更新
+            MessageRead::Create([
+                'user_id' => $participant_id,
+                'room_id' => $room->id,
+                'is_read' => false,
+                'message_id' => $param['id']
+            ]);
+        }
 
         //pusherのイベント処理
         event(new MessageAdded($param));

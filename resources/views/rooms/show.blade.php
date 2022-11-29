@@ -1,6 +1,6 @@
 @extends('app')
 
-@section('title', 'Laralove | Message Show')
+@section('title', 'Laralove | Room Show')
 
 @section('content')
 
@@ -12,39 +12,52 @@
     <div id="message_data" class="mb-5 pb-5">
         @foreach($user_messages as $user_message)
             <!-- 自分が送信したメッセージの場合 -->
-            @if ($user_message->id === auth()->id())
-                @if ($user_message->pivot->text)
+            @if ($user_message->user_id === auth()->id())
+                @if ($user_message->message_text)
                     <div class="d-flex flex-row-reverse align-items-center mt-3">
                         <div class="balloon-right">
-                            <h5 class="text-center">{{ $user_message->pivot->text }}</h5>
+                            <h5 class="text-center">{{ $user_message->message_text }}</h5>
                         </div>
                     </div>
                 @endif
-                @if ($user_message->pivot->file_path)
+                @if ($user_message->file_path)
                     <div class="d-flex flex-row-reverse align-items-center mt-3">
                         <div class="balloon-right w-50 text-center">
-                            <img src="{{ asset($user_message->pivot->file_path) }}" alt="" class="w-100">
+                            <img src="{{ asset($user_message->file_path) }}" alt="" class="w-100">
                         </div>
                     </div>
                 @endif
             @else
-                @if ($user_message->pivot->text)
+                @if ($user_message->message_text)
                     <div class="d-flex justify-content-start align-items-center mt-3">
-                        <a href="{{ route('users.show', $user_message->id) }}">
-                            <img src="{{ asset($user_message->profile_image_path) }}" alt="" class="rounded-circle circle-sm mr-2">
+                        <a href="{{ route('users.show', $user_message->user_id) }}" class="mr-2 text-decoration-none">
+                            <img src="{{ asset($user_message->profile_image_path) }}" alt="" class="rounded-circle circle-sm">
+                            <div class="text-center">{{ $user_message->user_name }}</div>
                         </a>
                         <div class="balloon-left">
-                            <h5 class="text-center">{{ $user_message->pivot->text }}</h5>
+                            <h5 class="text-center">{{ $user_message->message_text }}</h5>
+                            @if (!is_null($unread_id))
+                                @if ($unread_id->message_id <= $user_message->message_id)
+                                    <small>
+                                        <h6 class="text-right text-danger mt-2 mb-0 small">未読</h6>
+                                    </small>
+                                @endif
+                            @endif
                         </div>
                     </div>
                 @endif
-                @if ($user_message->pivot->file_path)
+                @if ($user_message->file_path)
                     <div class="d-flex justify-content-start align-items-center mt-3">
-                        <a href="{{ route('users.show', $user_message->id) }}">
-                            <img src="{{ asset($user_message->profile_image_path) }}" alt="" class="rounded-circle circle-sm mr-2">
+                        <a href="{{ route('users.show', $user_message->user_id) }}" class="mr-2 text-decoration-none">
+                            <img src="{{ asset($user_message->profile_image_path) }}" alt="" class="rounded-circle circle-sm">
                         </a>
                         <div class="balloon-left w-50 text-center">
-                            <img src="{{ asset($user_message->pivot->file_path) }}" alt="" class="w-100">
+                            <img src="{{ asset($user_message->file_path) }}" alt="" class="w-100">
+                            @if (!is_null($unread_id))
+                                @if ($unread_id->message_id <= $user_message->message_id)
+                                    <div class="text-right text-danger mt-2 mb-0">未読</div>
+                                @endif
+                            @endif
                         </div>
                     </div>
                 @endif
