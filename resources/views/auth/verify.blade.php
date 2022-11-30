@@ -1,24 +1,31 @@
-@extends('layouts.app')
+@extends('app')
+
+@section('title', 'Laralove | Verification Resend')
 
 @section('content')
+
+@include('nav')
+
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-3">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Verify Your Email Address') }}</div>
+                <div class="card-header">{{ __('メールアドレスを確認してください。') }}</div>
 
                 <div class="card-body">
                     @if (session('resent'))
                         <div class="alert alert-success" role="alert">
-                            {{ __('A fresh verification link has been sent to your email address.') }}
+                            {{ __('新しい確認リンクがメールアドレスに送信されました。') }}
                         </div>
                     @endif
 
-                    {{ __('Before proceeding, please check your email for a verification link.') }}
-                    {{ __('If you did not receive the email') }},
+                    <div>
+                        {{ __('メールに送信されたリンクから本登録を行なってください。') }}
+                    </div>
+                    {{ __('メールが届かない場合は、') }}
                     <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
                         @csrf
-                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
+                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('ここをクリックして確認リンクを再送信する。') }}</button>
                     </form>
                 </div>
             </div>
