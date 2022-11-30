@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\RoomController;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,44 +17,56 @@ use Illuminate\Support\Facades\Auth;
 */
 
 // Post Route
-Route::get('/', 'PostController@index')->name('posts.index');
-Route::post('/posts', 'PostController@store')->name('posts.store')->middleware('auth');
-Route::get('/posts/create', 'PostController@create')->name('posts.create')->middleware('auth');
-Route::get('/posts/{post}', 'PostController@show')->name('posts.show');
-Route::get('/posts/{post}/edit', 'PostController@edit')->name('posts.edit')->middleware('auth');
-Route::put('/posts/{post}', 'PostController@update')->name('posts.update')->middleware('auth');
-Route::delete('/posts/{post}', 'PostController@destroy')->name('posts.destroy')->middleware('auth');
+Route::group(['middleware' => ['auth', 'verified']], function() {
+    Route::get('/', 'PostController@index')->name('posts.index')->withoutMiddleware(['auth', 'verified']);
+    Route::post('/posts', 'PostController@store')->name('posts.store');
+    Route::get('/posts/create', 'PostController@create')->name('posts.create');
+    Route::get('/posts/{post}/edit', 'PostController@edit')->name('posts.edit');
+    Route::put('/posts/{post}', 'PostController@update')->name('posts.update');
+    Route::delete('/posts/{post}', 'PostController@destroy')->name('posts.destroy');
+    Route::get('/posts/{post}', 'PostController@show')->name('posts.show')->withoutMiddleware(['auth', 'verified']);
+});
 
 // User Route
-Route::get('/users', 'UserController@index')->name('users.index')->middleware('auth');
-Route::get('/users/{id}', 'UserController@show')->name('users.show');
-Route::get('/users/{user}/edit', 'UserController@edit')->name('users.edit')->middleware('auth');
-Route::put('/users/{user}', 'UserController@update')->name('users.update')->middleware('auth');
-Route::get('/users/{user}/profile-settings', 'UserController@showProfileSettingsForm')->name('users.profile_settings')->middleware('auth');
-Route::put('/users/{user}/profile-update', 'UserController@updateProfile')->name('users.profile_update')->middleware('auth');
-Route::get('/get-current-userid', 'UserController@getCurrentUserid')->name('users.get_current_userid')->middleware('auth');
+Route::group(['middleware' => ['auth', 'verified']], function() {
+    Route::get('/users', 'UserController@index')->name('users.index');
+    Route::get('/users/{user}/edit', 'UserController@edit')->name('users.edit');
+    Route::put('/users/{user}', 'UserController@update')->name('users.update');
+    Route::get('/users/{user}/profile-settings', 'UserController@showProfileSettingsForm')->name('users.profile_settings');
+    Route::put('/users/{user}/profile-update', 'UserController@updateProfile')->name('users.profile_update');
+    Route::get('/get-current-userid', 'UserController@getCurrentUserid')->name('users.get_current_userid');
+    Route::get('/users/{id}', 'UserController@show')->name('users.show');
+});
 
 // Follow Route
-Route::post('/users/{user}/follow', 'UserController@follow')->name('users.follow')->middleware('auth');
-Route::delete('/users/{user}/unfollow', 'UserController@unfollow')->name('users.unfollow')->middleware('auth');
-Route::get('/users/{user}/followers', 'UserController@followers')->name('users.followers')->middleware('auth');
-Route::get('/users/{user}/followings', 'UserController@followings')->name('users.followings')->middleware('auth');
+Route::group(['middleware' => ['auth', 'verified']], function() {
+    Route::post('/users/{user}/follow', 'UserController@follow')->name('users.follow');
+    Route::delete('/users/{user}/unfollow', 'UserController@unfollow')->name('users.unfollow');
+    Route::get('/users/{user}/followers', 'UserController@followers')->name('users.followers');
+    Route::get('/users/{user}/followings', 'UserController@followings')->name('users.followings');
+});
 
 // Like Route
-Route::post('/like/{id}', 'LikeController@store')->name('like.store')->middleware('auth');
-Route::delete('/unlike/{id}', 'LikeController@destroy')->name('like.destroy')->middleware('auth');
+Route::group(['middleware' => ['auth', 'verified']], function() {
+    Route::post('/like/{id}', 'LikeController@store')->name('like.store');
+    Route::delete('/unlike/{id}', 'LikeController@destroy')->name('like.destroy');
+});
 
 // Room Route
-Route::get('/rooms/{name}', 'RoomController@show')->name('rooms.show')
-            ->where('name', '[0-9]+-[0-9]+')->middleware(['auth', 'participant']);
-Route::get('/rooms', 'RoomController@index')->name('rooms.index')->middleware('auth');
+Route::group(['middleware' => ['auth', 'verified']], function() {
+    Route::get('/rooms/{name}', 'RoomController@show')->name('rooms.show')
+            ->where('name', '[0-9]+-[0-9]+')->middleware('participant');
+    Route::get('/rooms', 'RoomController@index')->name('rooms.index');
+});
 
 // Message Route
-Route::post('/messages/send', 'MessageController@send')->name('messages.send')->middleware('auth');
-Route::post('/messages/get-latest', 'MessageController@getLatest')->name('messages.get_Latest')->middleware('auth');
+Route::group(['middleware' => ['auth', 'verified']], function() {
+    Route::post('/messages/send', 'MessageController@send')->name('messages.send');
+    Route::post('/messages/get-latest', 'MessageController@getLatest')->name('messages.get_Latest');
+});
 
 // Notification Route
 Route::get('notifications/get-unread-messages', 'NotificationController@getUnreadMessages')
-            ->name('notifications.get_unread_messages')->middleware('auth');
+            ->name('notifications.get_unread_messages')->middleware(['auth', 'verified']);
 
-Auth::routes();
+Auth::routes(['verify' => true]);
