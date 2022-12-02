@@ -50,6 +50,7 @@
                     <div class="d-flex justify-content-start align-items-center mt-3">
                         <a href="{{ route('users.show', $user_message->user_id) }}" class="mr-2 text-decoration-none">
                             <img src="{{ asset($user_message->profile_image_path) }}" alt="" class="rounded-circle circle-sm">
+                            <div class="text-center">{{ $user_message->user_name }}</div>
                         </a>
                         <div class="balloon-left w-50 text-center">
                             <img src="{{ asset($user_message->file_path) }}" alt="" class="w-100">

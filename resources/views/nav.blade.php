@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand navbar-dark bg-primary">
+<nav class="navbar navbar-expand navbar-white bg-white shadow sticky-top">
 
   <a class="navbar-brand" href="/">Laralove</a>
 

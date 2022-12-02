@@ -114,3 +114,14 @@
     text-align: center;
     z-index: 1;
 }
+
+.sidebar_fixed {
+    position: sticky;
+    top: 7vh; /* スクロール後のヘッダーのheight分 */
+    min-height: 93vh; /* 初期表示のheightの最小値をヘッダー(7vh)の差分で設定 */
+    z-index: 1019;
+}
+
+.sidebar_fixed .item:hover {
+    background-color: #007cbf;
+}

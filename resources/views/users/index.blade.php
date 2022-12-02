@@ -6,25 +6,30 @@
 
 @include('nav')
 
-<div class="container">
-    @foreach($users as $user)
-        <div class="d-flex justify-content-start align-items-center mt-3">
-            <a href="{{ route('users.show', $user->id) }}"><img src="{{ asset($user->profile_image_path) }}" alt="" class="rounded-circle circle-sm"></a>
-            <div class="ml-4">
-                <div class="d-flex align-items-center">
-                    <h4>{{ $user->name }}</h4>
-                    @php
-                        $participant_ids = [auth()->id(), $user->id];
-                        sort($participant_ids);
-                    @endphp
-                    @if ($user->id !== auth()->id())
-                        <button class="btn btn-primary btn-sm ml-3 mb-2" onclick="location.href='{{ route('rooms.show', implode('-', $participant_ids) ) }} '">DMを送る</button>
-                    @endif
+<div class="container-fluid pl-0">
+    <div class="row">
+        @include('sidebar')
+        <div class="col">
+            @foreach($users as $user)
+                <div class="d-flex justify-content-start align-items-center mt-3">
+                    <a href="{{ route('users.show', $user->id) }}"><img src="{{ asset($user->profile_image_path) }}" alt="" class="rounded-circle circle-sm"></a>
+                    <div class="ml-4">
+                        <div class="d-flex align-items-center">
+                            <h4>{{ $user->name }}</h4>
+                            @php
+                                $participant_ids = [auth()->id(), $user->id];
+                                sort($participant_ids);
+                            @endphp
+                            @if ($user->id !== auth()->id())
+                                <button class="btn btn-primary btn-sm ml-3 mb-2" onclick="location.href='{{ route('rooms.show', implode('-', $participant_ids) ) }} '">DMを送る</button>
+                            @endif
+                        </div>
+                        <span>{{ '@' . $user->screen_name }}</span>
+                    </div>
                 </div>
-                <span>{{ '@' . $user->screen_name }}</span>
-            </div>
+                <hr>
+            @endforeach
         </div>
-        <hr>
-    @endforeach
+    </div>
 </div>
 @endsection
