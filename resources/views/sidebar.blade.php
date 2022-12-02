@@ -1,17 +1,40 @@
 <div class="col-2 bg-primary pr-0">
     <div class="sidebar_fixed">
-        <div class="pt-3 pb-1 item">
-            <a href="{{ route('posts.index') }}" class="text-white text-center text-decoration-none d-flex justify-content-center align-items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home mb-1" width="30" height="30" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                    <polyline points="5 12 3 12 12 3 21 12 19 12"></polyline>
-                    <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7"></path>
-                    <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6"></path>
-                </svg>
-                <h5 class="pt-2 d-md-block d-none">ホーム</h5>
-            </a>
-        </div>
+        @guest
+            <div class="pt-3 pb-1 item">
+                <a href="{{ route('login') }}" class="text-white text-center text-decoration-none d-flex justify-content-center align-items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-login mb-1" width="30" height="30" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"></path>
+                        <path d="M20 12h-13l3 -3m0 6l-3 -3"></path>
+                    </svg>
+                    <h5 class="pt-2 d-md-block d-none">ログイン</h5>
+                </a>
+            </div>
+            <div class="pt-3 mb-1 item">
+                <a href="{{ route('register') }}" class="text-white text-center text-decoration-none d-flex justify-content-center align-items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-plus mb-1" width="30" height="30" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+                        <path d="M16 11h6m-3 -3v6"></path>
+                    </svg>
+                    <h5 class="pt-2 d-md-block d-none">ユーザー登録</h5>
+                </a>
+            </div>
+        @endguest
         @auth
+            <div class="pt-3 pb-1 item">
+                <a href="{{ route('posts.index') }}" class="text-white text-center text-decoration-none d-flex justify-content-center align-items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home mb-1" width="30" height="30" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <polyline points="5 12 3 12 12 3 21 12 19 12"></polyline>
+                        <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7"></path>
+                        <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6"></path>
+                    </svg>
+                    <h5 class="pt-2 d-md-block d-none">ホーム</h5>
+                </a>
+            </div>
             <div class="pt-3 pb-1 item">
                 <a href="{{ route('users.show', auth()->id()) }}" class="text-white text-center text-decoration-none d-flex justify-content-center align-items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user mb-1" width="30" height="30" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
