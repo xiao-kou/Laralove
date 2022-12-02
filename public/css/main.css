@@ -125,3 +125,7 @@
 .sidebar_fixed .item:hover {
     background-color: #007cbf;
 }
+
+.btn_send_message img, .btn_attach_image img{
+    height: 30px;
+}
