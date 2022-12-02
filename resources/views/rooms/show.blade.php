@@ -50,6 +50,7 @@
                     <div class="d-flex justify-content-start align-items-center mt-3">
                         <a href="{{ route('users.show', $user_message->user_id) }}" class="mr-2 text-decoration-none">
                             <img src="{{ asset($user_message->profile_image_path) }}" alt="" class="rounded-circle circle-sm">
+                            <div class="text-center">{{ $user_message->user_name }}</div>
                         </a>
                         <div class="balloon-left w-50 text-center">
                             <img src="{{ asset($user_message->file_path) }}" alt="" class="w-100">
@@ -75,9 +76,9 @@
                 </div>
             </div>
             <div class="row d-flex align-items-center">
-                <div class="ml-3 pr-0">
-                    <button type="button" class="px-0 w-100" id="btn_attach_image">
-                        <img src="{{ asset('images/attach_btn.png') }}" alt="" style="height: 30px;">
+                <div class="ml-1 pr-0">
+                    <button type="button" class="px-0 w-100 btn_attach_image btn-primary" id="btn_attach_image">
+                        <img src="{{ asset('images/photo-plus.png') }}" alt="photo">
                     </button>
                     <input type="file" class="d-none" name="input_file" accept="image/png, image/jpeg, image/jpg, image/gif">
                 </div>
@@ -86,7 +87,9 @@
                 </div>
                 <input type="text" class="d-none" name="name" value="{{ basename(request()->path()) }}">
                 <div class="col-2 px-0">
-                    <button type="button" class="btn btn-primary" id="btn_send_message">送信</button>
+                    <button type="submit" class="btn btn-primary btn_send_message" id="btn_send_message">
+                        <img src="{{ asset('images/send.png') }}" alt="send">
+                    </button>
                 </div>
             </div>
         </div>

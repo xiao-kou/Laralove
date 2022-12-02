@@ -225,6 +225,10 @@ $(document).ready(function(){
         })
     })
 
+    $('.flash_message').on('click', function() {
+        $(this).addClass('d-none');
+    });
+
 });
 
 //メッセージの未読通知を取得する
