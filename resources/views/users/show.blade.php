@@ -25,7 +25,7 @@
                         @endif
                     @endcan
                     @can('update', $user)
-                        <button class="ml-4 mt-1 btn btn-primary btn-sm d-block" onclick="location.href = '{{ route('users.profile_settings', $user->id) }}'">プロフィールを設定</button>
+                        <button class="ml-4 mt-1 btn btn-primary btn-sm d-block" onclick="location.href = '{{ route('users.profile_settings', $user->id) }}'">プロフィール設定</button>
                     @endcan
                 </div>
             </div>

@@ -36,18 +36,21 @@
             </div>
             <div class="text-right my-2 mr-3">
                 @auth
-                    @if (auth()->user()->email_verified_at)
-                        @if ($is_liking)
-                            <button class="btn btn-secondary mr-2 btn_unlike" data-post-id="{{ $post->id }}">いいね中 {{ $likes_count }}</button>
-                        @else
-                            <button class="btn btn-primary mr-2 btn_like" data-post-id="{{ $post->id }}">いいね {{ $likes_count }}</button>
-                        @endif
-
-                        @canany(['update', 'delete'], $post)
-                            <button class="btn btn-primary mr-2" onclick="location.href='{{ route('posts.edit', $post->id) }}'">編集する</button>
-                            <button form="destroy-button" class="btn btn-secondary" type="submit" onclick="return confirm('本当に削除しますか?')">削除する</button>
-                        @endcan
+                    @if ($is_liking)
+                        <button class="btn btn-primary mr-2 btn_unlike" data-post-id="{{ $post->id }}">
+                            <img src="{{ asset('images/like_pink.svg') }}" alt="unlike">
+                            <span class="like-count">{{ $likes_count }}</span>
+                        </button>
+                    @else
+                        <button class="btn btn-primary mr-2 btn_like" data-post-id="{{ $post->id }}">
+                            <img src="{{ asset('images/like_black.svg') }}" alt="like">
+                            <span class="like-count">{{ $likes_count }}</span>
+                        </button>
                     @endif
+                    @canany(['update', 'delete'], $post)
+                        <button class="btn btn-primary mr-2" onclick="location.href='{{ route('posts.edit', $post->id) }}'">編集する</button>
+                        <button form="destroy-button" class="btn btn-secondary" type="submit" onclick="return confirm('本当に削除しますか?')">削除する</button>
+                    @endcan
                 @endauth
             </div>
         </div>

@@ -157,8 +157,10 @@ $(document).ready(function(){
         .done(function(data) {
             //デバッグログ
             console.log('ajax success', data);
-            //いいね中をいいねボタンに変更
-            $('.btn_like').text('いいね中 ' + data.likes_count).removeClass('btn_like btn-primary').addClass('btn_unlike btn-secondary');
+            //いいねをいいね中ボタンに変更
+            $('.btn_like').find('img').attr('src', '../images/like_pink.svg');
+            $('.btn_like').removeClass('btn_like').addClass('btn_unlike');
+            $('.like-count').text(data.likes_count);
         })
         .fail(function() {
             console.log('ajax fail');
@@ -186,7 +188,9 @@ $(document).ready(function(){
             //デバッグログ
             console.log('ajax success', data);
             //いいね中をいいねボタンに変更
-            $('.btn_unlike').text('いいね ' + data.likes_count).removeClass('btn_unlike btn-secondary').addClass('btn_like btn-primary');
+            $('.btn_unlike').find('img').attr('src', '../images/like_black.svg');
+            $('.btn_unlike').removeClass('btn_unlike').addClass('btn_like');
+            $('.like-count').text(data.likes_count);
         })
         .fail(function(data) {
             console.log('ajax fail');
