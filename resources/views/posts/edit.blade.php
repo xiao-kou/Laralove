@@ -18,7 +18,7 @@
                     <label for="title" class="col-md-4 col-form-label text-md-right">タイトル</label>
 
                     <div class="col-md-6">
-                        <input id="title" type="text" name="title" class="form-control @error('title') is-invalid @enderror" value="{{ $post->title }}" required autofocus>
+                        <input id="title" type="text" name="title" class="form-control @error('title') is-invalid @enderror" value="{{ $post->title }}" required>
                     </div>
                 </div>
 
