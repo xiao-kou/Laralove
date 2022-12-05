@@ -28,7 +28,7 @@ class PostFormRequest extends FormRequest
 
         //共通するルール
         $rules = [
-            'title' => 'required|max:255',
+            'title' => 'required|max:30',
             'content' => 'required|max:255',
         ];
 

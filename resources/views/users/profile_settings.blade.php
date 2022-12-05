@@ -33,6 +33,10 @@
                                     <div class="col-md-6">
                                         <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name', $user->name) }}" required autocomplete="name" autofocus>
 
+                                        <span class="invalid-feedback user-name">
+                                            <strong>名前は1文字以上50文字以内で入力してください。</strong>
+                                        </span>
+
                                         @error('name')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -47,6 +51,10 @@
                                     <div class="col-md-6">
                                         <textarea name="introduction" id="introduction" cols="20" rows="3" class="form-control @error('introduction') is-invalid @enderror">{{ $user->introduction }}</textarea>
 
+                                        <span class="invalid-feedback introduction">
+                                            <strong>自己紹介は160文字以内で入力してください。</strong>
+                                        </span>
+
                                         @error('introduction')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -60,6 +68,10 @@
 
                                     <div class="col-md-6">
                                         <input type="text" name="location" id="location" class="form-control @error('location') is-invalid @enderror" value="{{ old('location', $user->location) }}">
+
+                                        <span class="invalid-feedback location">
+                                            <strong>場所は30文字以内で入力してください。</strong>
+                                        </span>
 
                                         @error('location')
                                             <span class="invalid-feedback" role="alert">

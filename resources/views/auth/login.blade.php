@@ -25,6 +25,10 @@
                                     <div class="col-md-6">
                                         <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
+                                        <span class="invalid-feedback email" role="alert">
+                                            <strong>メールアドレスの形式が無効です。</strong>
+                                        </span>
+
                                         @error('email')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -38,6 +42,10 @@
 
                                     <div class="col-md-6">
                                         <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+
+                                        <span class="invalid-feedback password" role="alert">
+                                            <strong>パスワードは英数字または_+-の記号いずれかを8文字以上入力してください。</strong>
+                                        </span>
 
                                         @error('password')
                                             <span class="invalid-feedback" role="alert">

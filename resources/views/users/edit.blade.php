@@ -37,6 +37,10 @@
                                         <div class="col-md-6">
                                             <input id="screen_name" type="text" class="form-control @error('screen_name') is-invalid @enderror" name="screen_name" value="{{ old('screen_name', $user->screen_name) }}", @if ($errors->has('email') || $errors->has('current_password') || $errors->has('new_password')) disabled="disabled" @endif required>
 
+                                            <span class="invalid-feedback screen-name" role="alert">
+                                                <strong>名前は1文字以上50文字以内で入力してください。</strong>
+                                            </span>
+
                                             @error('screen_name')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -52,6 +56,10 @@
 
                                         <div class="col-md-6">
                                             <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email', $user->email) }}" @if (!$errors->has('email')) disabled="disabled @endif" required autocomplete="email">
+
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>メールアドレスの形式が無効です。</strong>
+                                            </span>
 
                                             @error('email')
                                                 <span class="invalid-feedback" role="alert">
@@ -69,6 +77,10 @@
                                         <div class="col-md-6">
                                             <input id="current-password" type="password" class="form-control @error('current_password') is-invalid @enderror" name="current_password" @if (!$errors->has('current_password') && !$errors->has('new_password')) disabled="disabled" @endif required>
 
+                                            <span class="invalid-feedback password" role="alert">
+                                                <strong>パスワードは英数字または_+-の記号いずれかを8文字以上入力してください。</strong>
+                                            </span>
+
                                             @error('current_password')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -82,6 +94,10 @@
 
                                         <div class="col-md-6">
                                             <input id="new_password" type="password" class="form-control" name="new_password" @if (!$errors->has('current_password') && !$errors->has('new_password')) disabled="disabled" @endif required>
+
+                                            <span class="invalid-feedback password-confirmation">
+                                                <strong>パスワードは英数字または_+-の記号いずれかを8文字以上入力してください。</strong>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
