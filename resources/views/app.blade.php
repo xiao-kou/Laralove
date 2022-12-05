@@ -20,6 +20,7 @@
     <!-- JavaScript -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
+    <script src="{{ asset('js/validation.js') }}"></script>
     @if (Request::route()->getName() === 'rooms.show')
       <script src="{{ asset('js/messages.js') }}"></script>
     @endif

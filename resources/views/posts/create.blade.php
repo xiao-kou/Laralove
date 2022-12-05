@@ -18,6 +18,10 @@
 
                     <div class="col-md-6">
                         <input id="title" type="text" name="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title') }}" required autofocus>
+
+                        <span class="invalid-feedback title">
+                            <strong>タイトルは30文字以内で入力してください。</strong>
+                        </span>
                     </div>
                 </div>
 
@@ -26,6 +30,10 @@
 
                     <div class="col-md-6">
                         <textarea required name="content" id="content" rows="3" class="form-control @error('content') is-invalid @enderror"></textarea>
+
+                        <span class="invalid-feedback content">
+                            <strong>内容は255文字以内で入力してください。</strong>
+                        </span>
                     </div>
                 </div>
 
