@@ -217,8 +217,8 @@ $(document).ready(function(){
             }
 
             //未読の通知を追加
-            var unreadCount = parseInt($('.unread .count').text(), '10') + 1;
-            $('.unread .count').text(unreadCount);
+            var unreadCount = parseInt($('.unread.count').text(), '10') + 1;
+            $('.unread.count').text(unreadCount);
 
             //メッセージの通知を表示
             $('.unread').removeClass('d-none');
@@ -250,7 +250,7 @@ function getUnreadNotificationMessages() {
         var unreadCount = unreadNotificationMessages.length;
 
         //メッセージの未読の通知件数を表示
-        $('.unread .count').text(unreadCount);
+        $('.unread.count').text(unreadCount);
 
         //メッセージの通知を表示
         if (unreadCount) {

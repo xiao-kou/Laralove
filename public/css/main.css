@@ -97,14 +97,14 @@
     right: 0;
 }
 
-.nav-item .nav-link.message {
+div,img.message {
     position: relative;
 }
 
 .unread {
     position: absolute;
-    top: 7px;
-    right: 40px;
+    bottom: 13px;
+    right: -7px;
     width: 20px;
     height: 20px;
     border: #ff0000;
@@ -114,6 +114,8 @@
     text-align: center;
     z-index: 1;
 }
+
+
 
 .sidebar_fixed {
     position: sticky;

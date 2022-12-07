@@ -83,7 +83,7 @@
                     <input type="file" class="d-none" name="input_file" accept="image/png, image/jpeg, image/jpg, image/gif">
                 </div>
                 <div class="col-8">
-                    <textarea required autofocus id="text" rows="3" class="form-control @error('text') is-invalid @enderror" name="text"></textarea>
+                    <textarea autofocus id="text" rows="3" class="form-control @error('text') is-invalid @enderror" name="text"></textarea>
                 </div>
                 <input type="text" class="d-none" name="name" value="{{ basename(request()->path()) }}">
                 <div class="col-2 px-0">
