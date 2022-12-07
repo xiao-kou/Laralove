@@ -26,7 +26,7 @@ class PostController extends Controller
         $likes_count = $post->likes()->count();
 
         //投稿をいいね中か判定
-        $is_liking = $user->is_liking($post->id);
+        $is_liking = $user->isLiking($post->id);
 
         return view('posts.show', compact('post', 'user', 'likes_count', 'is_liking'));
     }

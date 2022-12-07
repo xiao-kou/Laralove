@@ -108,7 +108,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany('App\Post', 'likes', 'user_id', 'post_id');
     }
 
-    public function is_liking($post_id)
+    public function isLiking($post_id)
     {
         return Auth::check()
                     ? Auth::user()->likes()->where('post_id', $post_id)->exists()
