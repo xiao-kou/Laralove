@@ -87,7 +87,7 @@
                 </div>
                 <input type="text" class="d-none" name="name" value="{{ basename(request()->path()) }}">
                 <div class="col-2 px-0">
-                    <button type="submit" class="btn btn-primary btn_send_message" id="btn_send_message">
+                    <button type="button" class="btn btn-primary btn_send_message" id="btn_send_message">
                         <img src="{{ asset('images/send.png') }}" alt="send">
                     </button>
                 </div>
